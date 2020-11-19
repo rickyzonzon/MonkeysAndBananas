@@ -29,7 +29,11 @@ public class GameController : MonoBehaviour
                                   "Rio", "Nim", "King", "Zuzu", "Juju" };
     [HideInInspector]
     public string[] lastNames = { "Curious", "Caesar", "Bubbles", "Kong", "Beans", "Ape", "Cheeks", "Congo", "Sun", 
-                                 "Bing Bong", "Smith", "Johnson", "Miller", "Jones", "William", "Anderson", "Wang" };
+                                 "Bing Bong", "Yum Yum", "Hopper", "Jelly", "Sugar", "Jaffa", "Crunch", "Butter",
+                                 "Banana", "Marbles", "Chiffon", "Marzipan", "Raisin", "Chunk", "Mentos", "Nectar",
+                                 "Duck", "Pez", "Brownie", "Mustard", "Scrappy", "Wiggles", "Tango", "Jabba",
+                                 "Monkey", "Bunny", "Buffalo", "Mandarin", "Wobble", "Rider", "Stone", "Rock", "Steel",
+                                 "Munch", "Cheesy", "Blue", "Red", "Silver", "Orange", "Green", "Popsicle", "Grass" };
 
     public GameObject monkeyTemplate;
     public GameObject[] trees;
