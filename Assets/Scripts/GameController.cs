@@ -65,6 +65,11 @@ public class GameController : MonoBehaviour
         {
             Time.timeScale = 0;
         }
+
+        if (currentTrees < 0)
+        {
+            currentTrees = 0;
+        }
     }
 
     void UpdateScan()

@@ -13,6 +13,7 @@ public class MonkeyGenes : MonoBehaviour
 
     public string firstName;
     public string lastName;
+    public bool mutated = false;
     public float intelligence; // Detection radius
     public float speed;
     public int stamina;
@@ -74,6 +75,8 @@ public class MonkeyGenes : MonoBehaviour
         blue = UnityEngine.Random.Range(0.35f, 1f);
         color = new Color(red, green, blue, 1f);
         sprite.color = color;
+
+        mutated = true;
 
         if (randGene == 0)
         {
