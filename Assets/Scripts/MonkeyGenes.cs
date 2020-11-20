@@ -92,7 +92,7 @@ public class MonkeyGenes : MonoBehaviour
         }
         else if (randGene == 2)
         {
-            wanderingSpeed = UnityEngine.Random.Range(0.5f, 5f);
+            wanderingSpeed = UnityEngine.Random.Range(1f, 5.5f);
             UnityEngine.Debug.Log(this.gameObject.name + " has had a speed mutation.");
         }
         else if (randGene == 3)

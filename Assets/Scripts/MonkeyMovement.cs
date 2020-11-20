@@ -10,7 +10,7 @@ public class MonkeyMovement : MonoBehaviour
 {
     private float targettingSpeed;
     private float wanderingSpeed;
-    private float magnifier = 10f;
+    private float magnifier = 8f;
     private Rigidbody2D myRigidbody;
     public Vector3 change;
     private Animator animator;
