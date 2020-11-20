@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    public int treeSpawnFreq = 5;
+    public int treeSpawnFreq = 3;
     public int maxTrees = 40;
     public float mutationProbability = 0.18f;
     public int currentTrees = 0;
@@ -14,9 +14,10 @@ public class GameController : MonoBehaviour
     public int totalMonkeys = 0;
     public bool extinction = false;
     public int timeOfExistence = 0;
+    public int numMutations = 0;
+    public int youngestGeneration = 0;
 
-    // 
-    [HideInInspector] 
+    [System.NonSerialized]
     public string[] firstNames = { "Abu", "Aldo", "Amy", "Andross", "Ari", "Bingo", "Babo", "Bobo", "Bonzo",
                                   "Clements", "Clyde", "Crystal", "Dodger", "Dunston", "Ed", "Grape", "George",
                                   "Ham", "Jack", "Joe", "Lazlo", "Loui", "Kassim", "Raffles", "Rafiki", "Peaches",
@@ -27,8 +28,8 @@ public class GameController : MonoBehaviour
                                   "Koko", "Kye", "Lazy", "Liz", "Lolly", "Maggie", "Merry", "Ania", "Molly", "Nicky",
                                   "Oli", "Rose", "Sheila", "Star", "Suri", "Wink", "Zini", "Chip", "Lolo", "Mini",
                                   "Rio", "Nim", "King", "Zuzu", "Juju" };
-    [HideInInspector]
-    public string[] lastNames = { "Curious", "Caesar", "Bubbles", "Kong", "Beans", "Ape", "Cheeks", "Congo", "Sun", 
+    [System.NonSerialized]
+    public string[] lastNames = { "Curious", "Caesar", "Bubbles", "Kong", "Beans", "Ape", "Cheeks", "Congo", "Sun",
                                  "Bing Bong", "Yum Yum", "Hopper", "Jelly", "Sugar", "Jaffa", "Crunch", "Butter",
                                  "Banana", "Marbles", "Chiffon", "Marzipan", "Raisin", "Chunk", "Mentos", "Nectar",
                                  "Duck", "Pez", "Brownie", "Mustard", "Scrappy", "Wiggles", "Tango", "Jabba",
@@ -73,30 +74,32 @@ public class GameController : MonoBehaviour
 
     void SpawnTree()
     {
-        if (maxTrees >= currentTrees)
+        for (int i = 0; i < 3; i++)
         {
-            float safetyNet = 0;
-            int randObj = UnityEngine.Random.Range(0, trees.Length);
-            Vector3 randPos = Vector3.zero;
-
-            do
+            if (maxTrees >= currentTrees)
             {
-                if (safetyNet > 500)
-                {
-                    UnityEngine.Debug.Log("Too many trees.");
-                    break;
-                }
-                randPos.x = UnityEngine.Random.Range(-20f, 20f);
-                randPos.y = UnityEngine.Random.Range(-7.5f, 7.5f);
-                safetyNet++;
-            }
-            while (!SafeSpawn(randPos, "tree"));
+                float safetyNet = 0;
+                int randObj = UnityEngine.Random.Range(0, trees.Length);
+                Vector3 randPos = Vector3.zero;
 
-            objectPos.position = randPos;
-            GameObject tree = Instantiate(trees[randObj], objectPos.position, Quaternion.identity) as GameObject;
-            UnityEngine.Debug.Log("New tree spawned.");
-            currentTrees++;
-            totalTrees++;
+                do
+                {
+                    if (safetyNet > 500)
+                    {
+                        UnityEngine.Debug.Log("Too many trees.");
+                        break;
+                    }
+                    randPos.x = UnityEngine.Random.Range(-20f, 20f);
+                    randPos.y = UnityEngine.Random.Range(-7.5f, 7.5f);
+                    safetyNet++;
+                }
+                while (!SafeSpawn(randPos, "tree"));
+
+                objectPos.position = randPos;
+                GameObject tree = Instantiate(trees[randObj], objectPos.position, Quaternion.identity) as GameObject;
+                currentTrees++;
+                totalTrees++;
+            }
         }
     }
 

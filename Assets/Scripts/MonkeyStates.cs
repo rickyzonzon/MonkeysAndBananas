@@ -19,6 +19,8 @@ public class MonkeyStates : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GameController game = this.GetComponent<GameController>();
+
         breedable = false;
         baby = true;
         timeAlive = 0f;

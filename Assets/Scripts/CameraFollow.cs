@@ -46,7 +46,7 @@ public class CameraFollow : MonoBehaviour
             {
                 UnityEngine.Debug.Log(hit.transform.gameObject.name);
 
-                if (hit.transform.gameObject.name.Contains("monkey"))
+                if (hit.transform.gameObject.tag == "monkey")
                 {
                     target = hit.transform;
 

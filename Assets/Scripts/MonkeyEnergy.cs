@@ -56,9 +56,9 @@ public class MonkeyEnergy : MonoBehaviour
     void OnCollisionEnter2D(Collision2D hit)
     {
         // eat banana
-        if (hit.gameObject.tag == "tree")
+        if (hit.transform.gameObject.tag == "tree")
         {
-            GameObject tree = hit.gameObject;
+            GameObject tree = hit.transform.gameObject;
 
             if (genes.maxClimb >= tree.GetComponent<TreeController>().height)
             {
@@ -74,11 +74,11 @@ public class MonkeyEnergy : MonoBehaviour
             }
         }
         // breed
-        else if (hit.gameObject.tag == "monkey")
+        else if (hit.transform.gameObject.tag == "monkey")
         {
-            if (GetInstanceID() > hit.gameObject.GetInstanceID())
+            if (GetInstanceID() > hit.transform.gameObject.GetInstanceID())
             {
-                GameObject parent = hit.gameObject;
+                GameObject parent = hit.transform.gameObject;
                 MonkeyGenes parentGenes = parent.GetComponent<MonkeyGenes>();
 
                 if (state.breedable && parent.GetComponent<MonkeyStates>().breedable)
@@ -99,7 +99,7 @@ public class MonkeyEnergy : MonoBehaviour
                     parent.GetComponent<MonkeyEnergy>().energy -= parentGenes.babyEnergy;
                     energy -= genes.babyEnergy;
 
-                    // increase generation by 1, from whichever parent is younger
+                    // increase generation by 1, from whichever parent is younger, update youngestGeneration
                     if (state.generation > parent.GetComponent<MonkeyStates>().generation)
                     {
                         baby.GetComponent<MonkeyStates>().generation = state.generation + 1;
@@ -109,8 +109,16 @@ public class MonkeyEnergy : MonoBehaviour
                         baby.GetComponent<MonkeyStates>().generation = parent.GetComponent<MonkeyStates>().generation + 1;
                     }
 
+                    if (baby.GetComponent<MonkeyStates>().generation > game.youngestGeneration)
+                    {
+                        game.youngestGeneration = baby.GetComponent<MonkeyStates>().generation;
+                    }
+
+
                     // baby color gene inherited from parents
-                    babyGenes.color = new Color((genes.red + parentGenes.red) / 2, (genes.green + parentGenes.green) / 2, (genes.blue + parentGenes.blue) / 2, 1);
+                    babyGenes.red = genes.red;
+                    babyGenes.green = parentGenes.green;
+                    babyGenes.blue = genes.blue;
 
                     // inheriting intelligence
                     int randGene = UnityEngine.Random.Range(0, 2);
@@ -176,12 +184,6 @@ public class MonkeyEnergy : MonoBehaviour
                     else
                     {
                         babyGenes.babyEnergy = parentGenes.babyEnergy;
-                    }
-
-                    float mutation = UnityEngine.Random.Range(0f, 1f);
-                    if (mutation <= game.mutationProbability)
-                    {
-                        babyGenes.Mutation();
                     }
 
                     // add child to children of both parents

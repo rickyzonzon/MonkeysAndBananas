@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class MonkeyGenes : MonoBehaviour
 {
-    private SpriteRenderer sprite;
+    [HideInInspector] public SpriteRenderer sprite;
     [HideInInspector] public float red;
     [HideInInspector] public float green;
     [HideInInspector] public float blue;
@@ -20,11 +20,16 @@ public class MonkeyGenes : MonoBehaviour
     public int breedingThreshold;
     public int babyEnergy;
 
+    private MonkeyStates state;
+    private GameController game;
+
     // Start is called before the first frame update
     void Start()
     {
-        MonkeyStates state = this.GetComponent<MonkeyStates>();
-        GameController game = GameObject.Find("GameController").GetComponent<GameController>();
+        state = this.GetComponent<MonkeyStates>();
+        game = GameObject.Find("GameController").GetComponent<GameController>();
+        
+        sprite = this.GetComponent<SpriteRenderer>();
 
         firstName = game.firstNames[UnityEngine.Random.Range(0, game.firstNames.Length)];
 
@@ -33,16 +38,13 @@ public class MonkeyGenes : MonoBehaviour
             lastName = game.lastNames[UnityEngine.Random.Range(0, game.lastNames.Length)];
             this.gameObject.name = firstName + " " + lastName + " (" + this.gameObject.name + ")";
 
-            sprite = this.GetComponent<SpriteRenderer>();
             red = UnityEngine.Random.Range(0.35f, 1f);
             green = UnityEngine.Random.Range(0.35f, 1f);
             blue = UnityEngine.Random.Range(0.35f, 1f);
-            sprite.color = new Color(red, green, blue, 1f);
-            color = sprite.color;
 
             intelligence = UnityEngine.Random.Range(2.5f, 10.5f);
             speed = UnityEngine.Random.Range(0.5f, 4f);
-            stamina = UnityEngine.Random.Range(1, 6);       // note: max is exclusive for int
+            stamina = UnityEngine.Random.Range(1, 5);       // note: max is exclusive for int
             maxClimb = UnityEngine.Random.Range(1, 6);
             breedingThreshold = UnityEngine.Random.Range(80, 141);
             babyEnergy = UnityEngine.Random.Range(10, 51);
@@ -50,38 +52,58 @@ public class MonkeyGenes : MonoBehaviour
         else
         {
             this.gameObject.name = firstName + " " + lastName + " (" + game.totalMonkeys + ")";
+
+            float mutation = UnityEngine.Random.Range(0f, 1f);
+            if (mutation <= game.mutationProbability)
+            {
+                Mutation();
+            }
         }
 
+        color = new Color(red, green, blue, 1f);
+        sprite.color = color;
         UnityEngine.Debug.Log("Monkey " + this.gameObject.name + " was born.");
     }
 
     public void Mutation()
     {
+        game.numMutations++;
         int randGene = UnityEngine.Random.Range(0, 6);
-        
+        red = UnityEngine.Random.Range(0.35f, 1f);
+        green = UnityEngine.Random.Range(0.35f, 1f);
+        blue = UnityEngine.Random.Range(0.35f, 1f);
+        color = new Color(red, green, blue, 1f);
+        sprite.color = color;
+
         if (randGene == 0)
         {
             intelligence = UnityEngine.Random.Range(2.5f, 10.5f);
+            UnityEngine.Debug.Log(this.gameObject.name + " has had an intelligence mutation.");
         }
         else if (randGene == 1)
         {
             speed = UnityEngine.Random.Range(0.5f, 4f);
+            UnityEngine.Debug.Log(this.gameObject.name + " has had a speed mutation.");
         }
         else if (randGene == 2)
         {
-            stamina = UnityEngine.Random.Range(1, 6);      
+            stamina = UnityEngine.Random.Range(1, 5);
+            UnityEngine.Debug.Log(this.gameObject.name + " has had a stamina mutation.");
         }
         else if (randGene == 3)
         {
             maxClimb = UnityEngine.Random.Range(1, 6);
+            UnityEngine.Debug.Log(this.gameObject.name + " has had a max climb mutation.");
         }
         else if (randGene == 4)
         {
             breedingThreshold = UnityEngine.Random.Range(80, 141);
+            UnityEngine.Debug.Log(this.gameObject.name + " has had a breeding threshold mutation.");
         }
         else
         {
             babyEnergy = UnityEngine.Random.Range(10, 51);
+            UnityEngine.Debug.Log(this.gameObject.name + " has had a baby energy mutation.");
         }
     }
 }
