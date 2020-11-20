@@ -43,8 +43,8 @@ public class MonkeyGenes : MonoBehaviour
             green = UnityEngine.Random.Range(0.35f, 1f);
             blue = UnityEngine.Random.Range(0.35f, 1f);
 
-            intelligence = UnityEngine.Random.Range(2.5f, 10.5f);
-            speed = UnityEngine.Random.Range(0.5f, 4f);
+            intelligence = UnityEngine.Random.Range(2.5f, 9f);
+            speed = UnityEngine.Random.Range(0.5f, 5f);
             stamina = UnityEngine.Random.Range(1, 5);       // note: max is exclusive for int
             maxClimb = UnityEngine.Random.Range(1, 6);
             breedingThreshold = UnityEngine.Random.Range(80, 141);
@@ -85,7 +85,7 @@ public class MonkeyGenes : MonoBehaviour
         }
         else if (randGene == 1)
         {
-            speed = UnityEngine.Random.Range(0.5f, 4f);
+            speed = UnityEngine.Random.Range(0.5f, 5f);
             UnityEngine.Debug.Log(this.gameObject.name + " has had a speed mutation.");
         }
         else if (randGene == 2)

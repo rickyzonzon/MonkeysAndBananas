@@ -170,12 +170,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8818c6a4563ddff4bb20afa6de51c1a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _state: 
+  _state: Confused
   breedable: 0
   baby: 1
-  timeAlive: 0
+  years: 0
+  months: 0
   generation: 0
   parents: []
+  mates: []
   numChildren: 0
   children: []
 --- !u!114 &2715467687751406828
@@ -190,18 +192,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3a860a85348b2144a4ba4f693f51aba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sprite: {fileID: 0}
   red: 0
   green: 0
   blue: 0
-  color: {r: 0.6542655, g: 0.7276061, b: 0.7925536, a: 1}
+  color: {r: 0, g: 0, b: 0, a: 1}
   firstName: 
   lastName: 
-  intelligence: 6.240457
-  speed: 1.7342461
-  stamina: 1
-  maxClimb: 4
-  breedingThreshold: 112
-  babyEnergy: 13
+  mutated: 0
+  intelligence: 0
+  speed: 0
+  stamina: 0
+  maxClimb: 0
+  breedingThreshold: 0
+  babyEnergy: 0
 --- !u!114 &2505230654996870643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,7 +218,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 898fb42162d04444d99ae009683a0d8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  energy: 62
+  energy: 0
 --- !u!114 &261716211609618165
 MonoBehaviour:
   m_ObjectHideFlags: 0

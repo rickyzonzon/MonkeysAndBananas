@@ -13,7 +13,9 @@ public class GameController : MonoBehaviour
     public int currentMonkeys = 0;
     public int totalMonkeys = 0;
     public bool extinction = false;
-    public int timeOfExistence = 0;
+    private float timeOfExistence = 0;
+    public int yearsOfExistence = 0;
+    public int monthsOfExistence = 0;
     public int numMutations = 0;
     public int youngestGeneration = 0;
 
@@ -49,7 +51,7 @@ public class GameController : MonoBehaviour
         levelGen.Generate();
 
         InvokeRepeating("SpawnTree", treeSpawnFreq, treeSpawnFreq);
-        InvokeRepeating("UpdateScan", 0f, treeSpawnFreq / 2);
+        InvokeRepeating("UpdateScan", 0f, 0.5f);
     }
 
     void Update()
@@ -58,8 +60,6 @@ public class GameController : MonoBehaviour
         {
             extinction = true;
         }
-
-        timeOfExistence = (int)Time.time;
 
         if (extinction)
         {
@@ -70,6 +70,10 @@ public class GameController : MonoBehaviour
         {
             currentTrees = 0;
         }
+
+        timeOfExistence += Time.deltaTime;
+        yearsOfExistence = (int)((10 * timeOfExistence) / 365);
+        monthsOfExistence = (int)(((10 * timeOfExistence) % 365) / 30);
     }
 
     void UpdateScan()

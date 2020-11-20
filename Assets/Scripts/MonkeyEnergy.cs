@@ -26,7 +26,7 @@ public class MonkeyEnergy : MonoBehaviour
             energy = 100;
         }
 
-        InvokeRepeating("EnergyLoss", 4f, 4f);
+        InvokeRepeating("EnergyLoss", 3f, 3f);
     }
     
     void Update()
@@ -62,7 +62,7 @@ public class MonkeyEnergy : MonoBehaviour
 
             if (genes.maxClimb >= tree.GetComponent<TreeController>().height)
             {
-                energy += 20;
+                energy += 15;
                 Destroy(tree);
                 game.currentTrees--;
             }
@@ -76,125 +76,144 @@ public class MonkeyEnergy : MonoBehaviour
         // breed
         else if (hit.transform.gameObject.tag == "monkey")
         {
-            if (GetInstanceID() > hit.transform.gameObject.GetInstanceID())
+            // currently testing
+            if (hit.transform.gameObject.GetComponent<MonkeyStates>().generation == state.generation)
             {
-                GameObject parent = hit.transform.gameObject;
-                MonkeyGenes parentGenes = parent.GetComponent<MonkeyGenes>();
-
-                if (state.breedable && parent.GetComponent<MonkeyStates>().breedable)
+                if (GetInstanceID() > hit.transform.gameObject.GetInstanceID())
                 {
-                    Vector3 babyPos = new Vector3(parent.transform.position.x, parent.transform.position.y - 1, parent.transform.position.z);
+                    GameObject parent = hit.transform.gameObject;
+                    MonkeyGenes parentGenes = parent.GetComponent<MonkeyGenes>();
 
-                    // spawn the baby
-                    GameObject baby = Instantiate(game.monkeyTemplate, babyPos, Quaternion.identity) as GameObject;
-                    MonkeyGenes babyGenes = baby.GetComponent<MonkeyGenes>();
-                    game.currentMonkeys++;
-                    game.totalMonkeys++;
+                    if (state.breedable && parent.GetComponent<MonkeyStates>().breedable)
+                    {
+                        // add other monkey to mates
+                        bool alreadyMated = false;
+                        foreach (GameObject monk in state.mates)
+                        {
+                            if (monk == parent)
+                            {
+                                alreadyMated = true;
+                                break;
+                            }
+                        }
+                        if (!alreadyMated)
+                        {
+                            state.mates.Add(parent);
+                            parent.GetComponent<MonkeyStates>().mates.Add(this.gameObject);
+                        }
 
-                    // pass on last name to baby
-                    babyGenes.lastName = genes.lastName;
+                        // spawn the baby
+                        Vector3 babyPos = new Vector3(parent.transform.position.x, parent.transform.position.y - 1, parent.transform.position.z);
+                        GameObject baby = Instantiate(game.monkeyTemplate, babyPos, Quaternion.identity) as GameObject;
+                        MonkeyGenes babyGenes = baby.GetComponent<MonkeyGenes>();
+                        game.currentMonkeys++;
+                        game.totalMonkeys++;
 
-                    // parent energies transfer to baby
-                    baby.GetComponent<MonkeyEnergy>().energy = genes.babyEnergy + parentGenes.babyEnergy;
-                    parent.GetComponent<MonkeyEnergy>().energy -= parentGenes.babyEnergy;
-                    energy -= genes.babyEnergy;
+                        // pass on last name to baby
+                        babyGenes.lastName = genes.lastName;
 
-                    // increase generation by 1, from whichever parent is younger, update youngestGeneration
-                    if (state.generation > parent.GetComponent<MonkeyStates>().generation)
-                    {
-                        baby.GetComponent<MonkeyStates>().generation = state.generation + 1;
-                    }
-                    else
-                    {
-                        baby.GetComponent<MonkeyStates>().generation = parent.GetComponent<MonkeyStates>().generation + 1;
-                    }
+                        // parent energies transfer to baby
+                        baby.GetComponent<MonkeyEnergy>().energy = genes.babyEnergy + parentGenes.babyEnergy;
+                        parent.GetComponent<MonkeyEnergy>().energy -= parentGenes.babyEnergy;
+                        energy -= genes.babyEnergy;
 
-                    if (baby.GetComponent<MonkeyStates>().generation > game.youngestGeneration)
-                    {
-                        game.youngestGeneration = baby.GetComponent<MonkeyStates>().generation;
-                    }
+                        // increase generation by 1, from whichever parent is younger, update youngestGeneration
+                        if (state.generation > parent.GetComponent<MonkeyStates>().generation)
+                        {
+                            baby.GetComponent<MonkeyStates>().generation = state.generation + 1;
+                        }
+                        else
+                        {
+                            baby.GetComponent<MonkeyStates>().generation = parent.GetComponent<MonkeyStates>().generation + 1;
+                        }
+
+                        if (baby.GetComponent<MonkeyStates>().generation > game.youngestGeneration)
+                        {
+                            game.youngestGeneration = baby.GetComponent<MonkeyStates>().generation;
+                        }
 
 
-                    // baby color gene inherited from parents
-                    babyGenes.red = genes.red;
-                    babyGenes.green = parentGenes.green;
-                    babyGenes.blue = genes.blue;
+                        // baby color gene inherited from parents
+                        babyGenes.red = genes.red;
+                        babyGenes.green = parentGenes.green;
+                        babyGenes.blue = genes.blue;
 
-                    // inheriting intelligence
-                    int randGene = UnityEngine.Random.Range(0, 2);
-                    if (randGene == 0)
-                    {
-                        babyGenes.intelligence = genes.intelligence;
-                    }
-                    else
-                    {
-                        babyGenes.intelligence = parentGenes.intelligence;
-                    }
+                        // inheriting intelligence
+                        int randGene = UnityEngine.Random.Range(0, 2);
+                        if (randGene == 0)
+                        {
+                            babyGenes.intelligence = genes.intelligence;
+                        }
+                        else
+                        {
+                            babyGenes.intelligence = parentGenes.intelligence;
+                        }
 
-                    // inheriting speed
-                    randGene = UnityEngine.Random.Range(0, 2);
-                    if (randGene == 0)
-                    {
-                        babyGenes.speed = genes.speed;
-                    }
-                    else
-                    {
-                        babyGenes.speed = parentGenes.speed;
-                    }
+                        // inheriting speed
+                        randGene = UnityEngine.Random.Range(0, 2);
+                        if (randGene == 0)
+                        {
+                            babyGenes.speed = genes.speed;
+                        }
+                        else
+                        {
+                            babyGenes.speed = parentGenes.speed;
+                        }
 
-                    // inheriting stamina
-                    randGene = UnityEngine.Random.Range(0, 2);
-                    if (randGene == 0)
-                    {
-                        babyGenes.stamina = genes.stamina;
-                    }
-                    else
-                    {
-                        babyGenes.stamina = parentGenes.stamina;
-                    }
+                        // inheriting stamina
+                        randGene = UnityEngine.Random.Range(0, 2);
+                        if (randGene == 0)
+                        {
+                            babyGenes.stamina = genes.stamina;
+                        }
+                        else
+                        {
+                            babyGenes.stamina = parentGenes.stamina;
+                        }
 
-                    // inheriting max climb
-                    randGene = UnityEngine.Random.Range(0, 2);
-                    if (randGene == 0)
-                    {
-                        babyGenes.maxClimb = genes.maxClimb;
-                    }
-                    else
-                    {
-                        babyGenes.maxClimb = parentGenes.maxClimb;
-                    }
+                        // inheriting max climb
+                        randGene = UnityEngine.Random.Range(0, 2);
+                        if (randGene == 0)
+                        {
+                            babyGenes.maxClimb = genes.maxClimb;
+                        }
+                        else
+                        {
+                            babyGenes.maxClimb = parentGenes.maxClimb;
+                        }
 
-                    // inheriting breedhing threshold
-                    randGene = UnityEngine.Random.Range(0, 2);
-                    if (randGene == 0)
-                    {
-                        babyGenes.breedingThreshold = genes.breedingThreshold;
-                    }
-                    else
-                    {
-                        babyGenes.breedingThreshold = parentGenes.breedingThreshold;
-                    }
+                        // inheriting breedhing threshold
+                        randGene = UnityEngine.Random.Range(0, 2);
+                        if (randGene == 0)
+                        {
+                            babyGenes.breedingThreshold = genes.breedingThreshold;
+                        }
+                        else
+                        {
+                            babyGenes.breedingThreshold = parentGenes.breedingThreshold;
+                        }
 
-                    // inheriting baby energy passover
-                    randGene = UnityEngine.Random.Range(0, 2);
-                    if (randGene == 0)
-                    {
-                        babyGenes.babyEnergy = genes.babyEnergy;
-                    }
-                    else
-                    {
-                        babyGenes.babyEnergy = parentGenes.babyEnergy;
-                    }
+                        // inheriting baby energy passover
+                        randGene = UnityEngine.Random.Range(0, 2);
+                        if (randGene == 0)
+                        {
+                            babyGenes.babyEnergy = genes.babyEnergy;
+                        }
+                        else
+                        {
+                            babyGenes.babyEnergy = parentGenes.babyEnergy;
+                        }
 
-                    // add child to children of both parents
-                    state.children.Add(baby);
-                    parent.GetComponent<MonkeyStates>().children.Add(baby);
-                    state.numChildren++;
-                    parent.GetComponent<MonkeyStates>().numChildren++;
+                        // add child to children of both parents
+                        state.children.Add(baby);
+                        parent.GetComponent<MonkeyStates>().children.Add(baby);
+                        state.numChildren++;
+                        parent.GetComponent<MonkeyStates>().numChildren++;
 
-                    // add parents to parents
-                    baby.GetComponent<MonkeyStates>().parents.Add(parent);
-                    baby.GetComponent<MonkeyStates>().parents.Add(this.gameObject);
+                        // add parents to parents
+                        baby.GetComponent<MonkeyStates>().parents.Add(parent);
+                        baby.GetComponent<MonkeyStates>().parents.Add(this.gameObject);
+                    }
                 }
             }
         }

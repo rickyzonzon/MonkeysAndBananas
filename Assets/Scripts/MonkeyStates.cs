@@ -7,12 +7,15 @@ public class MonkeyStates : MonoBehaviour
 {
 
     // public string[] allowedStates = { "Targetting", "Confused", "Deceased" }; 
-    public string _state;
+    public string _state = "Confused";
     public bool breedable;
     public bool baby;
-    public float timeAlive;
+    public int years = 0;
+    public int months = 0;
+    private float timeAlive = 0f;
     public int generation = 0;
     public List<GameObject> parents;
+    public List<GameObject> mates;
     public int numChildren = 0;
     public List<GameObject> children;
 
@@ -23,15 +26,18 @@ public class MonkeyStates : MonoBehaviour
 
         breedable = false;
         baby = true;
-        timeAlive = 0f;
-        children = new List<GameObject>();
+        children = new List<GameObject>();      // we do not do this with parents because we initialize the parents already after spawning
+        mates = new List<GameObject>();
     }
 
     void Update()
     {
         timeAlive += Time.deltaTime;
 
-        if (timeAlive >= 15)
+        years = (int) ((10 * timeAlive) / 365);
+        months = (int) (((10 * timeAlive) % 365) / 30);
+
+        if (months >= 10)
         {
             baby = false;
         }

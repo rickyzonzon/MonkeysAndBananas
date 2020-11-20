@@ -214,14 +214,25 @@ public class MonkeyMovement : MonoBehaviour
         {
             for (int i = 0; i < objects.Count; i++)
             {
-                if (objects[i].tag != "monkey" && objects[i].tag != "tree")
+                if (objects[i].gameObject == this.gameObject)
+                {
+                    objects.RemoveAt(i);
+                    i--;
+                }
+                else if (objects[i].tag != "monkey" && objects[i].tag != "tree")
+                {
+                    objects.RemoveAt(i);
+                    i--;
+                }
+                else if (unclimbableTrees.Contains(objects[i].gameObject))
                 {
                     objects.RemoveAt(i);
                     i--;
                 }
                 else if (objects[i].tag == "monkey")
                 {
-                    if (!objects[i].gameObject.GetComponent<MonkeyStates>().breedable)
+                    if (!objects[i].gameObject.GetComponent<MonkeyStates>().breedable ||
+                        objects[i].gameObject.GetComponent<MonkeyStates>().generation != state.generation)
                     {
                         objects.RemoveAt(i);
                         i--;
@@ -231,17 +242,21 @@ public class MonkeyMovement : MonoBehaviour
 
             if (objects.Count > 0)
             {
-                int randObj = UnityEngine.Random.Range(0, objects.Count);
-                if (unclimbableTrees.Contains(objects[randObj].gameObject))
+                float shortestDist = float.MaxValue;
+                int index = 0;
+
+                for (int i = 0; i < objects.Count; i++)
                 {
-                    track.target = null;
-                    state._state = "Confused";
+                    ColliderDistance2D dist = this.GetComponent<Collider2D>().Distance(objects[i]);
+                    if (dist.distance < shortestDist)
+                    {
+                        shortestDist = dist.distance;
+                        index = i;
+                    }
                 }
-                else
-                {
-                    track.target = objects[randObj].transform;
-                    state._state = "Targetting";
-                }
+
+                track.target = objects[index].transform;
+                state._state = "Targetting";
             }
             else
             {
@@ -258,21 +273,30 @@ public class MonkeyMovement : MonoBehaviour
                     objects.RemoveAt(i);
                     i--;
                 }
+                else if (unclimbableTrees.Contains(objects[i].gameObject))
+                {
+                    objects.RemoveAt(i);
+                    i--;
+                }
             }
 
             if (objects.Count > 0)
             {
-                int randObj = UnityEngine.Random.Range(0, objects.Count);
-                if (unclimbableTrees.Contains(objects[randObj].gameObject))
+                float shortestDist = float.MaxValue;
+                int index = 0;
+
+                for (int i = 0; i < objects.Count; i++)
                 {
-                    track.target = null;
-                    state._state = "Confused";
+                    ColliderDistance2D dist = this.GetComponent<Collider2D>().Distance(objects[i]);
+                    if (dist.distance < shortestDist)
+                    {
+                        shortestDist = dist.distance;
+                        index = i;
+                    }
                 }
-                else
-                {
-                    track.target = objects[randObj].transform;
-                    state._state = "Targetting";
-                }
+
+                track.target = objects[index].transform;
+                state._state = "Targetting";
             }
             else
             {
