@@ -149,15 +149,26 @@ public class MonkeyEnergy : MonoBehaviour
                             babyGenes.intelligence = parentGenes.intelligence;
                         }
 
-                        // inheriting speed
+                        // inheriting targetting speed
                         randGene = UnityEngine.Random.Range(0, 2);
                         if (randGene == 0)
                         {
-                            babyGenes.speed = genes.speed;
+                            babyGenes.targettingSpeed = genes.targettingSpeed;
                         }
                         else
                         {
-                            babyGenes.speed = parentGenes.speed;
+                            babyGenes.targettingSpeed = parentGenes.targettingSpeed;
+                        }
+
+                        // inheriting wandering speed
+                        randGene = UnityEngine.Random.Range(0, 2);
+                        if (randGene == 0)
+                        {
+                            babyGenes.wanderingSpeed = genes.wanderingSpeed;
+                        }
+                        else
+                        {
+                            babyGenes.wanderingSpeed = parentGenes.wanderingSpeed;
                         }
 
                         // inheriting stamina

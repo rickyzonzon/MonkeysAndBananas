@@ -8,7 +8,8 @@ using Pathfinding;
 
 public class MonkeyMovement : MonoBehaviour
 {
-    private float speed;
+    private float targettingSpeed;
+    private float wanderingSpeed;
     private float magnifier = 10f;
     private Rigidbody2D myRigidbody;
     public Vector3 change;
@@ -24,7 +25,8 @@ public class MonkeyMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        speed = this.GetComponent<MonkeyGenes>().speed;
+        targettingSpeed = this.GetComponent<MonkeyGenes>().targettingSpeed;
+        wanderingSpeed = this.GetComponent<MonkeyGenes>().wanderingSpeed;
         myRigidbody = this.GetComponent<Rigidbody2D>();
         animator = this.GetComponent<Animator>();
         state = this.GetComponent<MonkeyStates>();
@@ -32,7 +34,7 @@ public class MonkeyMovement : MonoBehaviour
         track = this.GetComponent<AIDestinationSetter>();
         unclimbableTrees = new List<GameObject>();
 
-        aiPath.maxSpeed = speed;
+        aiPath.maxSpeed = targettingSpeed;
     }
 
     // Update is called once per frame
@@ -52,7 +54,7 @@ public class MonkeyMovement : MonoBehaviour
             }
             else if (track.target == null && timer < waitWander)
             {
-                myRigidbody.AddForce((Vector2)change * speed * magnifier);
+                myRigidbody.AddForce((Vector2)change * wanderingSpeed * magnifier);
             }
         }
         else
