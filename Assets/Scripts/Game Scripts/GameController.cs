@@ -83,7 +83,8 @@ public class GameController : MonoBehaviour
 
     void SpawnTree()
     {
-        for (int i = 0; i < 3; i++)
+        int randNum = UnityEngine.Random.Range(1, 6);
+        for (int i = 0; i < randNum; i++)
         {
             if (maxTrees >= currentTrees)
             {

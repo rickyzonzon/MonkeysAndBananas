@@ -26,7 +26,7 @@ public class MonkeyEnergy : MonoBehaviour
             energy = 100;
         }
 
-        InvokeRepeating("EnergyLoss", 3f, 3f);
+        InvokeRepeating("EnergyLoss", 4f, 4f);
     }
     
     void Update()
@@ -62,7 +62,7 @@ public class MonkeyEnergy : MonoBehaviour
 
             if (genes.maxClimb >= tree.GetComponent<TreeController>().height)
             {
-                energy += 15;
+                energy += 16;
                 Destroy(tree);
                 game.currentTrees--;
             }

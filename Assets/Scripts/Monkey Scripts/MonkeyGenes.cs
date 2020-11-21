@@ -45,9 +45,9 @@ public class MonkeyGenes : MonoBehaviour
             blue = UnityEngine.Random.Range(0.35f, 1f);
 
             intelligence = UnityEngine.Random.Range(2.5f, 9f);
-            targettingSpeed = UnityEngine.Random.Range(0.5f, 5f);
-            wanderingSpeed = UnityEngine.Random.Range(0.5f, 5f);
-            stamina = UnityEngine.Random.Range(1, 5);       // note: max is exclusive for int
+            targettingSpeed = UnityEngine.Random.Range(0.5f, 4.5f);
+            wanderingSpeed = UnityEngine.Random.Range(1.5f, 5f);
+            stamina = UnityEngine.Random.Range(2, 5);       // note: max is exclusive for int
             maxClimb = UnityEngine.Random.Range(1, 6);
             breedingThreshold = UnityEngine.Random.Range(80, 141);
             babyEnergy = UnityEngine.Random.Range(10, 51);
@@ -83,37 +83,37 @@ public class MonkeyGenes : MonoBehaviour
         if (randGene == 0)
         {
             intelligence = UnityEngine.Random.Range(2.5f, 10.5f);
-            UnityEngine.Debug.Log(this.gameObject.name + " has had an intelligence mutation.");
+            UnityEngine.Debug.Log(this.gameObject.name + " had an intelligence mutation.");
         }
         else if (randGene == 1)
         {
-            targettingSpeed = UnityEngine.Random.Range(0.5f, 5f);
-            UnityEngine.Debug.Log(this.gameObject.name + " has had a speed mutation.");
+            targettingSpeed = UnityEngine.Random.Range(0.5f, 4.5f);
+            UnityEngine.Debug.Log(this.gameObject.name + " had a targetting speed mutation.");
         }
         else if (randGene == 2)
         {
-            wanderingSpeed = UnityEngine.Random.Range(1f, 5.5f);
-            UnityEngine.Debug.Log(this.gameObject.name + " has had a speed mutation.");
+            wanderingSpeed = UnityEngine.Random.Range(1.5f, 5f);
+            UnityEngine.Debug.Log(this.gameObject.name + " had a wandering speed mutation.");
         }
         else if (randGene == 3)
         {
-            stamina = UnityEngine.Random.Range(1, 5);
-            UnityEngine.Debug.Log(this.gameObject.name + " has had a stamina mutation.");
+            stamina = UnityEngine.Random.Range(2, 5);
+            UnityEngine.Debug.Log(this.gameObject.name + " had a stamina mutation.");
         }
         else if (randGene == 4)
         {
             maxClimb = UnityEngine.Random.Range(1, 6);
-            UnityEngine.Debug.Log(this.gameObject.name + " has had a max climb mutation.");
+            UnityEngine.Debug.Log(this.gameObject.name + " had a max climb mutation.");
         }
         else if (randGene == 5)
         {
             breedingThreshold = UnityEngine.Random.Range(80, 141);
-            UnityEngine.Debug.Log(this.gameObject.name + " has had a breeding threshold mutation.");
+            UnityEngine.Debug.Log(this.gameObject.name + " had a breeding threshold mutation.");
         }
         else
         {
             babyEnergy = UnityEngine.Random.Range(10, 51);
-            UnityEngine.Debug.Log(this.gameObject.name + " has had a baby energy mutation.");
+            UnityEngine.Debug.Log(this.gameObject.name + " had a baby energy mutation.");
         }
     }
 }
