@@ -20,8 +20,7 @@ GameObject:
   - component: {fileID: 160253117997514624}
   - component: {fileID: 4875419251993937239}
   - component: {fileID: 5649822326472334026}
-  - component: {fileID: -2204479366162368052}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: monkey
   m_TagString: monkey
   m_Icon: {fileID: 0}
@@ -190,22 +189,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 4640405459654647932}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f271de1bc98d2a439dd6ce1b4805410, type: 3}
+  m_Script: {fileID: 11500000, guid: f3a860a85348b2144a4ba4f693f51aba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   sprite: {fileID: 0}
   red: 0
   green: 0
   blue: 0
-  color: {r: 0, g: 0, b: 0, a: 0}
+  color: {r: 0, g: 0, b: 0, a: 1}
   firstName: 
   lastName: 
   mutated: 0
   intelligence: 0
-  targettingSpeed: 0
-  targettingStamina: 0
-  wanderingSpeed: 0
-  wanderingStamina: 0
+  speed: 0
+  stamina: 0
   maxClimb: 0
   breedingThreshold: 0
   babyEnergy: 0
@@ -218,10 +215,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4640405459654647932}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c51e7f224f0286c4bbebdade055ff7c8, type: 3}
+  m_Script: {fileID: 11500000, guid: 898fb42162d04444d99ae009683a0d8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  energy: 100
+  energy: 0
 --- !u!114 &261716211609618165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -264,7 +261,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 2
-  radius: 0.33
+  radius: 0.5
   height: 2
   repathRate: 0.5
   canSearch: 1
@@ -280,7 +277,7 @@ MonoBehaviour:
   targetCompatibility: {fileID: 0}
   maxAcceleration: -2.5
   rotationSpeed: 360
-  slowdownDistance: 0
+  slowdownDistance: 0.6
   pickNextWaypointDist: 2
   endReachedDistance: 0
   alwaysDrawGizmos: 0
@@ -315,19 +312,3 @@ MonoBehaviour:
   tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   graphMask:
     value: -1
---- !u!114 &-2204479366162368052
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4640405459654647932}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 183748dd497aa473a98ff0cd8cb67fc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 1
-  uniqueID: 2933435468859961625
-  updateError: 1
-  checkTime: 0.2

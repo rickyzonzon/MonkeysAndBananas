@@ -8,30 +8,28 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
     public Transform target;
-    public float followSmoothing;
-    public float panSmoothing;
-    public float panSpeed;
-    public float panBorderThickness;
+    public float followSmoothing = 0.05f;
+    public float panSmoothing = 5f;
+    public float panSpeed = 10f;
+    public float panBorderThickness = 40f;
     private Vector2 maxPos;
     private Vector2 minPos;
     private Vector2 convert;
     private CameraZoom zoom;
-    private float orthoMax;
-    private float orthoMin;
 
     // KEEP THESE VALUES CONSTANT
-    private float MAX_X = 0.5f;
-    private float MIN_X = 102f;
-    private float MAX_Y = 0.5f;
-    private float MIN_Y = 57f;
+    private float ORTHO_MAX = 2.5f;               
+    private float ORTHO_MIN = 10f;
+    private float MAX_X = 18.5f;
+    private float MIN_X = 5f;
+    private float MAX_Y = 8f;
+    private float MIN_Y = 0.5f;
 
 
     // Start is called before the first frame update
     void Start()
     {
         zoom = this.GetComponent<Camera>().GetComponent<CameraZoom>();
-        orthoMax = zoom.maxOrtho;
-        orthoMin = zoom.minOrtho;
     }
 
     void Update()
@@ -54,7 +52,7 @@ public class CameraFollow : MonoBehaviour
 
                     zoom.scroll = 5f;
                     zoom.targetOrtho -= zoom.scroll * zoom.zoomSpeed;
-                    zoom.targetOrtho = Mathf.Clamp(zoom.targetOrtho, 7.5f, zoom.maxOrtho);
+                    zoom.targetOrtho = Mathf.Clamp(zoom.targetOrtho, 4f, zoom.maxOrtho);
 
                     Camera.main.orthographicSize = Mathf.MoveTowards(Camera.main.orthographicSize, zoom.targetOrtho, zoom.smoothSpeed * Time.deltaTime);
                 }
@@ -65,11 +63,10 @@ public class CameraFollow : MonoBehaviour
             }
         }
 
-        //Free camera movement with edge-scrolling
+        //Free camera movement with edge-scrolling and standard movement keys
         if (target == null)
         {
             Vector3 targetPos = transform.position;
-            Vector3 mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, targetPos.z);
 
             if (Input.mousePosition.y >= Screen.height - panBorderThickness)
             {
@@ -110,8 +107,8 @@ public class CameraFollow : MonoBehaviour
     // Sets boundaries for the camera
     void BoundCamera()
     {
-        convert.x = (((Camera.main.orthographicSize - orthoMin) * (MAX_X - MIN_X)) / (orthoMax - orthoMin)) + MIN_X;
-        convert.y = (((Camera.main.orthographicSize - orthoMin) * (MAX_Y - MIN_Y)) / (orthoMax - orthoMin)) + MIN_Y;
+        convert.x = (((Camera.main.orthographicSize - ORTHO_MIN) * (MAX_X - MIN_X)) / (ORTHO_MAX - ORTHO_MIN)) + MIN_X;
+        convert.y = (((Camera.main.orthographicSize - ORTHO_MIN) * (MAX_Y - MIN_Y)) / (ORTHO_MAX - ORTHO_MIN)) + MIN_Y;
         minPos = new Vector2(-convert.x, -convert.y);
         maxPos = new Vector2(convert.x, convert.y);
     }

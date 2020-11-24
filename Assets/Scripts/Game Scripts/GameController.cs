@@ -2,26 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Pathfinding;
 
 public class GameController : MonoBehaviour
 {
-    public int treeSpawnFreq = 20;
-    public int treeEnergy = 20;
-    public int maxTrees = 200;
-    public float mutationProbability = 0.27f;
-
-    public float[] colorBounds = { 0.35f, 1f };
-    public float[] intelligenceBounds = { 10f, 20f };
-    public float[] targettingSpeedBounds = { 3f, 7f };
-    public int[] targettingStaminaBounds = { 5, 11 };
-    public float[] wanderingSpeedBounds = { 4f, 8f };
-    public int[] wanderingStaminaBounds = { 4, 10 };
-    public float[] sizeBounds = { 1f, 4f };
-    public int[] maxClimbBounds = { 1, 5 };
-    public int[] breedingThresholdBounds = { 100, 181 };
-    public int[] babyEnergyBounds = { 35, 86 };
-
+    public int treeSpawnFreq = 3;
+    public int maxTrees = 40;
+    public float mutationProbability = 0.18f;
     public int currentTrees = 0;
     public int totalTrees = 0;
     public int currentMonkeys = 0;
@@ -64,9 +50,8 @@ public class GameController : MonoBehaviour
         LevelGeneration levelGen = this.GetComponent<LevelGeneration>();
         levelGen.Generate();
 
-        AstarPath.active.Scan();
-
         InvokeRepeating("SpawnTree", treeSpawnFreq, treeSpawnFreq);
+        InvokeRepeating("UpdateScan", 0f, 0.5f);
     }
 
     void Update()
@@ -91,9 +76,14 @@ public class GameController : MonoBehaviour
         monthsOfExistence = (int)(((10 * timeOfExistence) % 365) / 30);
     }
 
+    void UpdateScan()
+    {
+        AstarPath.active.Scan();
+    }
+
     void SpawnTree()
     {
-        int randNum = UnityEngine.Random.Range(10, 21);
+        int randNum = UnityEngine.Random.Range(1, 6);
         for (int i = 0; i < randNum; i++)
         {
             if (maxTrees >= currentTrees)
@@ -106,11 +96,11 @@ public class GameController : MonoBehaviour
                 {
                     if (safetyNet > 500)
                     {
-                        UnityEngine.Debug.Log("Not enough room for this tree.");
+                        UnityEngine.Debug.Log("Too many trees.");
                         break;
                     }
-                    randPos.x = UnityEngine.Random.Range(-106f, 106f);
-                    randPos.y = UnityEngine.Random.Range(-56f, 56f);
+                    randPos.x = UnityEngine.Random.Range(-20f, 20f);
+                    randPos.y = UnityEngine.Random.Range(-7.5f, 7.5f);
                     safetyNet++;
                 }
                 while (!SafeSpawn(randPos, "tree"));
@@ -120,7 +110,6 @@ public class GameController : MonoBehaviour
                 currentTrees++;
                 totalTrees++;
             }
-            
         }
     }
 

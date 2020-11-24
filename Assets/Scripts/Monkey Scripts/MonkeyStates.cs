@@ -37,7 +37,7 @@ public class MonkeyStates : MonoBehaviour
         years = (int) ((10 * timeAlive) / 365);
         months = (int) (((10 * timeAlive) % 365) / 30);
 
-        if (years >= 1)
+        if (months >= 10)
         {
             baby = false;
         }

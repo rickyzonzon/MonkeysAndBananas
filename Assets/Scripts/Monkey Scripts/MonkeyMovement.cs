@@ -96,13 +96,10 @@ public class MonkeyMovement : MonoBehaviour
 
     void Wandering()
     {
-        state._state = "Confused";
-        float jitter = 0;
-
         float randX = UnityEngine.Random.Range(0f, 1f);
         float randY = UnityEngine.Random.Range(0f, 1f);
 
-        if (myRigidbody.position.x > 105f)
+        if (myRigidbody.position.x > 16f)
         {
             if (randX > 0.25)
             {
@@ -117,7 +114,7 @@ public class MonkeyMovement : MonoBehaviour
                 change.x = 1f;
             }
         }
-        else if (myRigidbody.position.x < -105f)
+        else if (myRigidbody.position.x < -16f)
         {
             if (randX > 0.25)
             {
@@ -148,7 +145,7 @@ public class MonkeyMovement : MonoBehaviour
             }
         }
 
-        if (myRigidbody.position.y > 55f)
+        if (myRigidbody.position.y > 6.5f)
         {
             if (randY > 0.25)
             {
@@ -163,7 +160,7 @@ public class MonkeyMovement : MonoBehaviour
                 change.y = 1f;
             }
         }
-        else if (myRigidbody.position.y < -55f)
+        else if (myRigidbody.position.y < -6.5f)
         {
             if (randY > 0.25)
             {

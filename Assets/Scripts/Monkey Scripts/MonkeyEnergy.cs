@@ -26,11 +26,13 @@ public class MonkeyEnergy : MonoBehaviour
             energy = 100;
         }
 
-        InvokeRepeating("EnergyLoss", 15f - genes.energyDepletionNerf, 15f - genes.energyDepletionNerf);
+        InvokeRepeating("EnergyLoss", 4f, 4f);
     }
     
     void Update()
     {
+        // if collides with tree, then EatBanana
+        // return;
         if (energy <= 0)
         {
             state._state = "Deceased";
@@ -60,7 +62,7 @@ public class MonkeyEnergy : MonoBehaviour
 
             if (genes.maxClimb >= tree.GetComponent<TreeController>().height)
             {
-                energy += game.treeEnergy;
+                energy += 16;
                 Destroy(tree);
                 game.currentTrees--;
             }
@@ -158,17 +160,6 @@ public class MonkeyEnergy : MonoBehaviour
                             babyGenes.targettingSpeed = parentGenes.targettingSpeed;
                         }
 
-                        // inheriting targetting stamina
-                        randGene = UnityEngine.Random.Range(0, 2);
-                        if (randGene == 0)
-                        {
-                            babyGenes.targettingStamina = genes.targettingStamina;
-                        }
-                        else
-                        {
-                            babyGenes.targettingStamina = parentGenes.targettingStamina;
-                        }
-
                         // inheriting wandering speed
                         randGene = UnityEngine.Random.Range(0, 2);
                         if (randGene == 0)
@@ -180,26 +171,15 @@ public class MonkeyEnergy : MonoBehaviour
                             babyGenes.wanderingSpeed = parentGenes.wanderingSpeed;
                         }
 
-                        // inheriting wandering stamina
+                        // inheriting stamina
                         randGene = UnityEngine.Random.Range(0, 2);
                         if (randGene == 0)
                         {
-                            babyGenes.wanderingStamina = genes.wanderingStamina;
+                            babyGenes.stamina = genes.stamina;
                         }
                         else
                         {
-                            babyGenes.wanderingStamina = parentGenes.wanderingStamina;
-                        }
-
-                        // inheriting size
-                        randGene = UnityEngine.Random.Range(0, 2);
-                        if (randGene == 0)
-                        {
-                            babyGenes.size = genes.size;
-                        }
-                        else
-                        {
-                            babyGenes.size = parentGenes.size;
+                            babyGenes.stamina = parentGenes.stamina;
                         }
 
                         // inheriting max climb
@@ -254,7 +234,7 @@ public class MonkeyEnergy : MonoBehaviour
     {
         GameObject monkey = this.gameObject;
         Destroy(gameObject);
-        UnityEngine.Debug.Log(monkey.name + " died.");
+        UnityEngine.Debug.Log("Monkey " + monkey.name + " died.");
         game.currentMonkeys--;
 
         return monkey;
@@ -262,13 +242,6 @@ public class MonkeyEnergy : MonoBehaviour
 
     void EnergyLoss()
     {
-        if (state._state == "Confused")
-        {
-            energy -= genes.wanderingStamina;
-        }
-        else if (state._state == "Targetting")
-        {
-            energy -= genes.targettingStamina;
-        }
+        energy -= genes.stamina;
     }
 }

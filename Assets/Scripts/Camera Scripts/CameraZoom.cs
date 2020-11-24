@@ -6,14 +6,10 @@ public class CameraZoom : MonoBehaviour
 {
     public float targetOrtho;
     public float scroll = 0f;
+    public float zoomSpeed = 5.0f;
+    public float smoothSpeed = 10.0f;
     public float minOrtho = 2.5f;
-    public float maxOrtho = 60f;
-
-    public float zoomSpeed = 25f;
-    public float smoothSpeed = 20f;
-    private float minSpeed = 10f;
-    private float maxSpeed = 25f;
-
+    public float maxOrtho = 10.5f;
 
     // Start is called before the first frame update
     void Start()
@@ -26,8 +22,6 @@ public class CameraZoom : MonoBehaviour
         scroll = Input.GetAxis("Mouse ScrollWheel");
         if (scroll != 0.0f)
         {
-            zoomSpeed = (((targetOrtho - minOrtho) * (maxSpeed - minSpeed)) / (maxOrtho - minOrtho)) + minSpeed;
-           // smoothSpeed = (((targetOrtho - minSpeed) * (maxOrtho - minOrtho)) / (maxSpeed - minSpeed)) + minOrtho;
             targetOrtho -= scroll * zoomSpeed;
             targetOrtho = Mathf.Clamp(targetOrtho, minOrtho, maxOrtho);
         }

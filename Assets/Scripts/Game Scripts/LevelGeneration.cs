@@ -6,9 +6,9 @@ using UnityEngine;
 
 public class LevelGeneration : MonoBehaviour
 {
-    public int numCollidables = 0;
-    public int numMonkeys = 0;
-    public int numTrees = 0;
+    public int numCollidables = 20;
+    public int numMonkeys = 15;
+    public int numTrees = 7;
 
     private GameController game;
 
@@ -33,11 +33,11 @@ public class LevelGeneration : MonoBehaviour
             {
                 if (safetyNet > 500)
                 {
-                    UnityEngine.Debug.Log("Not enough space for this monkey.");
+                    UnityEngine.Debug.Log("Too many monkeys.");
                     break;
                 }
-                randPos.x = UnityEngine.Random.Range(-106f, 106f);
-                randPos.y = UnityEngine.Random.Range(-56f, 56f);
+                randPos.x = UnityEngine.Random.Range(-20f, 20f);
+                randPos.y = UnityEngine.Random.Range(-7.5f, 7.5f);
                 safetyNet++;
             }
             while (!game.SafeSpawn(randPos, "monkey"));
@@ -63,11 +63,11 @@ public class LevelGeneration : MonoBehaviour
             {
                 if (safetyNet > 500)
                 {
-                    UnityEngine.Debug.Log("Not enough space for this tree.");
+                    UnityEngine.Debug.Log("Too many trees.");
                     break;
                 }
-                randPos.x = UnityEngine.Random.Range(-106f, 106f);
-                randPos.y = UnityEngine.Random.Range(-56f, 56f);
+                randPos.x = UnityEngine.Random.Range(-20f, 20f);
+                randPos.y = UnityEngine.Random.Range(-7.5f, 7.5f);
                 safetyNet++;
             }
             while (!game.SafeSpawn(randPos, "tree"));
@@ -93,11 +93,11 @@ public class LevelGeneration : MonoBehaviour
             {
                 if (safetyNet > 500)
                 {
-                    UnityEngine.Debug.Log("Not enough space for this obstacle.");
+                    UnityEngine.Debug.Log("Too many obstacles.");
                     break;
                 }
-                randPos.x = UnityEngine.Random.Range(-106f, 106f);
-                randPos.y = UnityEngine.Random.Range(-56f, 56f);
+                randPos.x = UnityEngine.Random.Range(-20f, 20f);
+                randPos.y = UnityEngine.Random.Range(-7.5f, 7.5f);
                 safetyNet++;
             }
             while (!game.SafeSpawn(randPos, "collidables"));
