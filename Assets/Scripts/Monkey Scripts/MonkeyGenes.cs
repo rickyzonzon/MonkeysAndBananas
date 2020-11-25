@@ -17,7 +17,8 @@ public class MonkeyGenes : MonoBehaviour
     public float intelligence; // Detection radius
     public float targettingSpeed;
     public float wanderingSpeed;
-    public int stamina;
+    public int targettingStamina;
+    public int wanderingStamina;
     public int maxClimb;
     public int breedingThreshold;
     public int babyEnergy;
@@ -40,17 +41,18 @@ public class MonkeyGenes : MonoBehaviour
             lastName = game.lastNames[UnityEngine.Random.Range(0, game.lastNames.Length)];
             this.gameObject.name = firstName + " " + lastName + " (" + this.gameObject.name + ")";
 
-            red = UnityEngine.Random.Range(0.35f, 1f);
-            green = UnityEngine.Random.Range(0.35f, 1f);
-            blue = UnityEngine.Random.Range(0.35f, 1f);
+            red = UnityEngine.Random.Range(game.colorBounds[0], game.colorBounds[1]);
+            green = UnityEngine.Random.Range(game.colorBounds[0], game.colorBounds[1]);
+            blue = UnityEngine.Random.Range(game.colorBounds[0], game.colorBounds[1]);
 
-            intelligence = UnityEngine.Random.Range(2.5f, 9f);
-            targettingSpeed = UnityEngine.Random.Range(0.5f, 4.5f);
-            wanderingSpeed = UnityEngine.Random.Range(1.5f, 5f);
-            stamina = UnityEngine.Random.Range(2, 5);       // note: max is exclusive for int
-            maxClimb = UnityEngine.Random.Range(1, 6);
-            breedingThreshold = UnityEngine.Random.Range(80, 141);
-            babyEnergy = UnityEngine.Random.Range(10, 51);
+            intelligence = UnityEngine.Random.Range(game.intelligenceBounds[0], game.intelligenceBounds[1]);
+            targettingSpeed = UnityEngine.Random.Range(game.targettingSpeedBounds[0], game.targettingSpeedBounds[1]);
+            wanderingSpeed = UnityEngine.Random.Range(game.wanderingSpeedBounds[0], game.wanderingSpeedBounds[1]);
+            targettingStamina = UnityEngine.Random.Range(game.targettingStaminaBounds[0], game.targettingStaminaBounds[1]);
+            wanderingStamina = UnityEngine.Random.Range(game.wanderingStaminaBounds[0], game.wanderingStaminaBounds[1]);
+            maxClimb = UnityEngine.Random.Range(game.maxClimbBounds[0], game.maxClimbBounds[1]);
+            breedingThreshold = UnityEngine.Random.Range(game.breedingThresholdBounds[0], game.breedingThresholdBounds[1]);
+            babyEnergy = UnityEngine.Random.Range(game.babyEnergyBounds[0], game.babyEnergyBounds[1]);
         }
         else
         {
@@ -72,9 +74,10 @@ public class MonkeyGenes : MonoBehaviour
     {
         game.numMutations++;
         int randGene = UnityEngine.Random.Range(0, 7);
-        red = UnityEngine.Random.Range(0.35f, 1f);
-        green = UnityEngine.Random.Range(0.35f, 1f);
-        blue = UnityEngine.Random.Range(0.35f, 1f);
+
+        red = UnityEngine.Random.Range(game.colorBounds[0], game.colorBounds[1]);
+        green = UnityEngine.Random.Range(game.colorBounds[0], game.colorBounds[1]);
+        blue = UnityEngine.Random.Range(game.colorBounds[0], game.colorBounds[1]);
         color = new Color(red, green, blue, 1f);
         sprite.color = color;
 
@@ -82,37 +85,42 @@ public class MonkeyGenes : MonoBehaviour
 
         if (randGene == 0)
         {
-            intelligence = UnityEngine.Random.Range(2.5f, 10.5f);
+            intelligence = UnityEngine.Random.Range(game.intelligenceBounds[0], game.intelligenceBounds[1]);
             UnityEngine.Debug.Log(this.gameObject.name + " had an intelligence mutation.");
         }
         else if (randGene == 1)
         {
-            targettingSpeed = UnityEngine.Random.Range(0.5f, 4.5f);
+            targettingSpeed = UnityEngine.Random.Range(game.targettingSpeedBounds[0], game.targettingSpeedBounds[1]);
             UnityEngine.Debug.Log(this.gameObject.name + " had a targetting speed mutation.");
         }
         else if (randGene == 2)
         {
-            wanderingSpeed = UnityEngine.Random.Range(1.5f, 5f);
+            wanderingSpeed = UnityEngine.Random.Range(game.wanderingSpeedBounds[0], game.wanderingSpeedBounds[1]);
             UnityEngine.Debug.Log(this.gameObject.name + " had a wandering speed mutation.");
         }
         else if (randGene == 3)
         {
-            stamina = UnityEngine.Random.Range(2, 5);
-            UnityEngine.Debug.Log(this.gameObject.name + " had a stamina mutation.");
+            targettingStamina = UnityEngine.Random.Range(game.targettingStaminaBounds[0], game.targettingStaminaBounds[1]);
+            UnityEngine.Debug.Log(this.gameObject.name + " had a targetting stamina mutation.");
         }
         else if (randGene == 4)
         {
-            maxClimb = UnityEngine.Random.Range(1, 6);
-            UnityEngine.Debug.Log(this.gameObject.name + " had a max climb mutation.");
+            wanderingStamina = UnityEngine.Random.Range(game.wanderingStaminaBounds[0], game.wanderingStaminaBounds[1]);
+            UnityEngine.Debug.Log(this.gameObject.name + " had a wandering stamina mutation.");
         }
         else if (randGene == 5)
         {
-            breedingThreshold = UnityEngine.Random.Range(80, 141);
+            maxClimb = UnityEngine.Random.Range(game.maxClimbBounds[0], game.maxClimbBounds[1]);
+            UnityEngine.Debug.Log(this.gameObject.name + " had a max climb mutation.");
+        }
+        else if (randGene == 6)
+        {
+            breedingThreshold = UnityEngine.Random.Range(game.breedingThresholdBounds[0], game.breedingThresholdBounds[1]);
             UnityEngine.Debug.Log(this.gameObject.name + " had a breeding threshold mutation.");
         }
         else
         {
-            babyEnergy = UnityEngine.Random.Range(10, 51);
+            babyEnergy = UnityEngine.Random.Range(game.babyEnergyBounds[0], game.babyEnergyBounds[1]);
             UnityEngine.Debug.Log(this.gameObject.name + " had a baby energy mutation.");
         }
     }

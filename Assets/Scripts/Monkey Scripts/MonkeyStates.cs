@@ -16,7 +16,7 @@ public class MonkeyStates : MonoBehaviour
     public int generation = 0;
     public List<GameObject> parents;
     public List<GameObject> mates;
-    public int numChildren = 0;
+    [HideInInspector] public int numChildren = 0;
     public List<GameObject> children;
 
     // Start is called before the first frame update

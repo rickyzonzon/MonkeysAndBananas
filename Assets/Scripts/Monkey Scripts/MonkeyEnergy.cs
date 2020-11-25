@@ -171,15 +171,26 @@ public class MonkeyEnergy : MonoBehaviour
                             babyGenes.wanderingSpeed = parentGenes.wanderingSpeed;
                         }
 
-                        // inheriting stamina
+                        // inheriting targetting stamina
                         randGene = UnityEngine.Random.Range(0, 2);
                         if (randGene == 0)
                         {
-                            babyGenes.stamina = genes.stamina;
+                            babyGenes.targettingStamina = genes.targettingStamina;
                         }
                         else
                         {
-                            babyGenes.stamina = parentGenes.stamina;
+                            babyGenes.targettingStamina = parentGenes.targettingStamina;
+                        }
+
+                        // inheriting wandering stamina
+                        randGene = UnityEngine.Random.Range(0, 2);
+                        if (randGene == 0)
+                        {
+                            babyGenes.wanderingStamina = genes.wanderingStamina;
+                        }
+                        else
+                        {
+                            babyGenes.wanderingStamina = parentGenes.wanderingStamina;
                         }
 
                         // inheriting max climb
@@ -242,6 +253,13 @@ public class MonkeyEnergy : MonoBehaviour
 
     void EnergyLoss()
     {
-        energy -= genes.stamina;
+        if (state._state == "Targetting")
+        {
+            energy -= genes.targettingStamina;
+        }
+        else
+        {
+            energy -= genes.wanderingStamina;
+        }
     }
 }

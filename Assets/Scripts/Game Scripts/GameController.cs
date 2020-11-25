@@ -7,7 +7,7 @@ public class GameController : MonoBehaviour
 {
     public int treeSpawnFreq = 3;
     public int maxTrees = 40;
-    public float mutationProbability = 0.18f;
+    public float mutationProbability = 0.24f;
     public int currentTrees = 0;
     public int totalTrees = 0;
     public int currentMonkeys = 0;
@@ -18,6 +18,16 @@ public class GameController : MonoBehaviour
     public int monthsOfExistence = 0;
     public int numMutations = 0;
     public int youngestGeneration = 0;
+
+    public float[] colorBounds = { 0.35f, 1f };
+    public float[] intelligenceBounds = { 2.5f, 9f }; // Detection radius
+    public float[] targettingSpeedBounds = { 0.5f, 4.5f };
+    public float[] wanderingSpeedBounds = { 1.5f, 5f };
+    public int[] targettingStaminaBounds = { 2, 6 };
+    public int[] wanderingStaminaBounds = { 2, 6 };
+    public int[] maxClimbBounds = { 1, 6 };
+    public int[] breedingThresholdBounds = { 80, 41 };
+    public int[] babyEnergyBounds = { 10, 51 };
 
     [System.NonSerialized]
     public string[] firstNames = { "Abu", "Aldo", "Amy", "Andross", "Ari", "Bingo", "Babo", "Bobo", "Bonzo",
@@ -49,9 +59,8 @@ public class GameController : MonoBehaviour
     {
         LevelGeneration levelGen = this.GetComponent<LevelGeneration>();
         levelGen.Generate();
-
+        AstarPath.active.Scan();
         InvokeRepeating("SpawnTree", treeSpawnFreq, treeSpawnFreq);
-        InvokeRepeating("UpdateScan", 0f, 0.5f);
     }
 
     void Update()
@@ -74,11 +83,6 @@ public class GameController : MonoBehaviour
         timeOfExistence += Time.deltaTime;
         yearsOfExistence = (int)((10 * timeOfExistence) / 365);
         monthsOfExistence = (int)(((10 * timeOfExistence) % 365) / 30);
-    }
-
-    void UpdateScan()
-    {
-        AstarPath.active.Scan();
     }
 
     void SpawnTree()

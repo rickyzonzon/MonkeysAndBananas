@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 160253117997514624}
   - component: {fileID: 4875419251993937239}
   - component: {fileID: 5649822326472334026}
+  - component: {fileID: -1556336073316046571}
   m_Layer: 0
   m_Name: monkey
   m_TagString: monkey
@@ -201,8 +202,10 @@ MonoBehaviour:
   lastName: 
   mutated: 0
   intelligence: 0
-  speed: 0
-  stamina: 0
+  targettingSpeed: 0
+  wanderingSpeed: 0
+  targettingStamina: 0
+  wanderingStamina: 0
   maxClimb: 0
   breedingThreshold: 0
   babyEnergy: 0
@@ -312,3 +315,19 @@ MonoBehaviour:
   tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   graphMask:
     value: -1
+--- !u!114 &-1556336073316046571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4640405459654647932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 183748dd497aa473a98ff0cd8cb67fc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
+  uniqueID: 3297826652634958924
+  updateError: 1
+  checkTime: 0.2
