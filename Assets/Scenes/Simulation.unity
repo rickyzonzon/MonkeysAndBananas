@@ -21278,17 +21278,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   treeSpawnFreq: 5
+  treeSpawnBounds: 0100000006000000
   maxTrees: 40
-  mutationProbability: 0.18
   currentTrees: 0
   totalTrees: 0
+  mutationProbability: 0.24
+  energyLossTime: 4
   currentMonkeys: 0
   totalMonkeys: 0
-  extinction: 0
-  yearsOfExistence: 0
-  monthsOfExistence: 0
   numMutations: 0
   youngestGeneration: 0
+  yearsOfExistence: 0
+  monthsOfExistence: 0
+  extinction: 0
+  colorBounds:
+  - 0.35
+  - 1
+  intelligenceBounds:
+  - 2.5
+  - 7
+  targettingSpeedBounds:
+  - 1
+  - 3.5
+  wanderingSpeedBounds:
+  - 1.5
+  - 4
+  targettingStaminaBounds: 0100000005000000
+  wanderingStaminaBounds: 0100000005000000
+  maxClimbBounds: 0100000006000000
+  breedingThresholdBounds: 500000008d000000
+  babyEnergyBounds: 0a00000033000000
   monkeyTemplate: {fileID: 4640405459654647932, guid: 562b625713e511f4fa2bc2e50c157203,
     type: 3}
   trees:

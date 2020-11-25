@@ -8,6 +8,7 @@ public class MonkeyStates : MonoBehaviour
 
     // public string[] allowedStates = { "Targetting", "Confused", "Deceased" }; 
     public string _state = "Confused";
+    public bool bored;
     public bool breedable;
     public bool baby;
     public int years = 0;
@@ -24,6 +25,7 @@ public class MonkeyStates : MonoBehaviour
     {
         GameController game = this.GetComponent<GameController>();
 
+        bored = false;
         breedable = false;
         baby = true;
         children = new List<GameObject>();      // we do not do this with parents because we initialize the parents already after spawning

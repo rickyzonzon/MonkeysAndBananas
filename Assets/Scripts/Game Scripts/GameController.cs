@@ -5,19 +5,21 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    public int treeSpawnFreq = 3;
+    public int treeSpawnFreq = 5;
+    public int[] treeSpawnBounds = { 1, 6 };
     public int maxTrees = 40;
-    public float mutationProbability = 0.24f;
     public int currentTrees = 0;
     public int totalTrees = 0;
+    public float mutationProbability = 0.24f;
+    public float energyLossTime = 4f;
     public int currentMonkeys = 0;
     public int totalMonkeys = 0;
-    public bool extinction = false;
+    public int numMutations = 0;
+    public int youngestGeneration = 0;
     private float timeOfExistence = 0;
     public int yearsOfExistence = 0;
     public int monthsOfExistence = 0;
-    public int numMutations = 0;
-    public int youngestGeneration = 0;
+    public bool extinction = false;
 
     public float[] colorBounds = { 0.35f, 1f };
     public float[] intelligenceBounds = { 2.5f, 9f }; // Detection radius
@@ -87,7 +89,7 @@ public class GameController : MonoBehaviour
 
     void SpawnTree()
     {
-        int randNum = UnityEngine.Random.Range(1, 6);
+        int randNum = UnityEngine.Random.Range(treeSpawnBounds[0], treeSpawnBounds[1]);
         for (int i = 0; i < randNum; i++)
         {
             if (maxTrees >= currentTrees)

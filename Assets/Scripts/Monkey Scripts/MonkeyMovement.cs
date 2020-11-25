@@ -10,17 +10,20 @@ public class MonkeyMovement : MonoBehaviour
 {
     private float targettingSpeed;
     private float wanderingSpeed;
-    private float magnifier = 8f;
+    private float magnifier = 20f;
     private Rigidbody2D myRigidbody;
     public Vector3 change;
     private Animator animator;
+
+    private GameController game;
     private MonkeyStates state;
     private AIPath aiPath;
     private AIDestinationSetter track;
     public List<GameObject> unclimbableTrees;
-    public float timer = 0f;
-    private float waitWander = 1f;
-    private float waitConfused = 3f;
+    public float wanderTimer = 0f;
+    public float boredTimer = 0f;
+    private float wanderTime = 1f;
+    private float boredTime = 6f;
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +32,7 @@ public class MonkeyMovement : MonoBehaviour
         wanderingSpeed = this.GetComponent<MonkeyGenes>().wanderingSpeed;
         myRigidbody = this.GetComponent<Rigidbody2D>();
         animator = this.GetComponent<Animator>();
+        game = GameObject.Find("GameController").GetComponent<GameController>();
         state = this.GetComponent<MonkeyStates>();
         aiPath = this.GetComponent<AIPath>();
         track = this.GetComponent<AIDestinationSetter>();
@@ -40,37 +44,66 @@ public class MonkeyMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        timer += Time.deltaTime;
-        
-       // if (state._state == "Confused" || state._state == "LookingToMate")
-        if (track.target == null)
+        if (state._state == "Confused")
         {
-            FindTarget();
-           // if (state._state == "Confused" || state._state == "LookingToMate")
-            if (track.target == null && timer >= waitWander)
+            wanderTimer += Time.deltaTime;
+
+            if (state.bored)
             {
-                Wandering();
-                timer = 0f;
+                boredTimer += Time.deltaTime;
+
+                if (boredTimer < 3f)
+                {
+                    if (wanderTimer < wanderTime)
+                    {
+                        myRigidbody.AddForce((Vector2)change * wanderingSpeed * magnifier);
+                    }
+                    else
+                    {
+                        Wandering();
+                        wanderTimer = 0f;
+                    }
+                }
+                else
+                {
+                    state.bored = false;
+                    boredTimer = 0f;
+                    FindTarget();
+                }
             }
-            else if (track.target == null && timer < waitWander)
+            else
             {
-                myRigidbody.AddForce((Vector2)change * wanderingSpeed * magnifier);
+                FindTarget();
+
+                if (state._state == "Confused" && wanderTimer < wanderTime)
+                {
+                    myRigidbody.AddForce((Vector2)change * wanderingSpeed * magnifier);
+                }
+                else if (state._state == "Confused" && wanderTimer >= wanderTime)
+                {
+                    Wandering();
+                    wanderTimer = 0f;
+                }
             }
         }
         else
         {
-            if (timer >= waitConfused)
+            boredTimer += Time.deltaTime;
+
+            if (boredTimer < boredTime)
+            {
+                Tracking();
+            }
+            else
             {
                 track.target = null;
+                state._state = "Confused";
+                state.bored = true;
+                boredTimer = 0f;
                 Wandering();
-                timer = 0f;
             }
-
-            Tracking();
         }
-
         UpdateAnim();
-        
     }
 
     void Tracking()

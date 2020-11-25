@@ -26,7 +26,7 @@ public class MonkeyEnergy : MonoBehaviour
             energy = 100;
         }
 
-        InvokeRepeating("EnergyLoss", 4f, 4f);
+        InvokeRepeating("EnergyLoss", game.energyLossTime, game.energyLossTime);
     }
     
     void Update()
