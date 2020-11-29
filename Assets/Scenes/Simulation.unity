@@ -21283,7 +21283,7 @@ MonoBehaviour:
   currentTrees: 0
   totalTrees: 0
   mutationProbability: 0.24
-  energyLossRate: 3
+  energyLossRate: 4
   startingEnergy: 80
   currentMonkeys: 0
   totalMonkeys: 0
@@ -21335,7 +21335,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numCollidables: 20
   numMonkeys: 15
-  numTrees: 15
+  numTrees: 10
 --- !u!1 &1694123620
 GameObject:
   m_ObjectHideFlags: 0

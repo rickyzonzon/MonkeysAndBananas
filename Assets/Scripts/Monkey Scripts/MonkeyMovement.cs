@@ -19,7 +19,7 @@ public class MonkeyMovement : MonoBehaviour
     private AIDestinationSetter track;
     public List<GameObject> unclimbableTrees;
     public float boredTimer = 0f;
-    private float boredTime;
+    public float boredTime;
     private float wanderRange = 4f;
     public Transform wanderAI;
 
@@ -36,7 +36,7 @@ public class MonkeyMovement : MonoBehaviour
         track = this.GetComponent<AIDestinationSetter>();
         unclimbableTrees = new List<GameObject>();
 
-        boredTime = 2 * game.treeSpawnFreq;
+        boredTime = (((targettingSpeed - game.targettingSpeedBounds[0]) * (3f - 10f)) / (game.targettingSpeedBounds[1] - game.targettingSpeedBounds[0])) + 10f;
         wanderAI = transform.GetChild(0);
     }
 
