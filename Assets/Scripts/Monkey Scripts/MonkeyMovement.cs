@@ -10,20 +10,18 @@ public class MonkeyMovement : MonoBehaviour
 {
     private float targettingSpeed;
     private float wanderingSpeed;
-    private float magnifier = 20f;
     private Rigidbody2D myRigidbody;
     public Vector3 change;
     private Animator animator;
-
     private GameController game;
     private MonkeyStates state;
     private AIPath aiPath;
     private AIDestinationSetter track;
     public List<GameObject> unclimbableTrees;
-    public float wanderTimer = 0f;
     public float boredTimer = 0f;
-    private float wanderTime = 1f;
-    private float boredTime = 6f;
+    private float boredTime;
+    private float wanderRange = 4f;
+    public Transform wanderAI;
 
     // Start is called before the first frame update
     void Start()
@@ -38,75 +36,61 @@ public class MonkeyMovement : MonoBehaviour
         track = this.GetComponent<AIDestinationSetter>();
         unclimbableTrees = new List<GameObject>();
 
-        aiPath.maxSpeed = targettingSpeed;
+        boredTime = 2 * game.treeSpawnFreq;
+        wanderAI = transform.GetChild(0);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (state._state == "Confused")
+        boredTimer += Time.deltaTime;
+        
+        if (!state.bored)
         {
-            wanderTimer += Time.deltaTime;
-
-            if (state.bored)
+            if (boredTimer < boredTime)
             {
-                boredTimer += Time.deltaTime;
-
-                if (boredTimer < 3f)
+                if (track.target == wanderAI || track.target == null)
                 {
-                    if (wanderTimer < wanderTime)
-                    {
-                        myRigidbody.AddForce((Vector2)change * wanderingSpeed * magnifier);
-                    }
-                    else
+                    FindTarget();
+                    if (state._state == "Confused")
                     {
                         Wandering();
-                        wanderTimer = 0f;
                     }
-                }
-                else
-                {
-                    state.bored = false;
-                    boredTimer = 0f;
-                    FindTarget();
                 }
             }
             else
             {
-                FindTarget();
-
-                if (state._state == "Confused" && wanderTimer < wanderTime)
-                {
-                    myRigidbody.AddForce((Vector2)change * wanderingSpeed * magnifier);
-                }
-                else if (state._state == "Confused" && wanderTimer >= wanderTime)
-                {
-                    Wandering();
-                    wanderTimer = 0f;
-                }
+                boredTimer = 0f;
+                state.bored = true;
+                Wandering();
             }
         }
         else
         {
-            boredTimer += Time.deltaTime;
-
-            if (boredTimer < boredTime)
+            if (boredTimer >= 3f)
             {
-                Tracking();
-            }
-            else
-            {
-                track.target = null;
-                state._state = "Confused";
-                state.bored = true;
                 boredTimer = 0f;
+                state.bored = false;
                 Wandering();
             }
         }
+
+        ChangeDirection();
         UpdateAnim();
     }
 
-    void Tracking()
+    void OnTargetReached()
+    {
+        boredTimer = 0f;
+        FindTarget();
+
+        if (state._state == "Confused")
+        {
+            Wandering();
+        }
+    }
+
+    void ChangeDirection()
     {
         if (aiPath.desiredVelocity.x >= 0.01f)
         {
@@ -129,100 +113,22 @@ public class MonkeyMovement : MonoBehaviour
 
     void Wandering()
     {
-        float randX = UnityEngine.Random.Range(0f, 1f);
-        float randY = UnityEngine.Random.Range(0f, 1f);
+        state._state = "Confused";
+        Vector3 newPos = Vector3.zero;
+        Collider2D overlap = null;
 
-        if (myRigidbody.position.x > 16f)
+        do
         {
-            if (randX > 0.25)
-            {
-                change.x = -1f;
-            }
-            else if (randX > 0.1)
-            {
-                change.x = 0f;
-            }
-            else
-            {
-                change.x = 1f;
-            }
+            float randX = UnityEngine.Random.Range(transform.position.x - wanderRange, transform.position.x + wanderRange);
+            float randY = UnityEngine.Random.Range(transform.position.y - wanderRange, transform.position.y + wanderRange);
+            overlap = Physics2D.OverlapCircle(new Vector2(randX, randY), 0.5f);
+            newPos = new Vector3(randX, randY, 0);
         }
-        else if (myRigidbody.position.x < -16f)
-        {
-            if (randX > 0.25)
-            {
-                change.x = 1f;
-            }
-            else if (randX > 0.1)
-            {
-                change.x = 0f;
-            }
-            else
-            {
-                change.x = -1f;
-            }
-        }
-        else
-        {
-            if (randX > 0.665)
-            {
-                change.x = 1f;
-            }
-            else if (randX > 0.335)
-            {
-                change.x = -1f;
-            }
-            else
-            {
-                change.x = 0;
-            }
-        }
+        while (overlap != null || newPos.x < -20f || newPos.x > 20f ||
+                newPos.y > 7.5f || newPos.y < -7.5f);
 
-        if (myRigidbody.position.y > 6.5f)
-        {
-            if (randY > 0.25)
-            {
-                change.y = -1f;
-            }
-            else if (randY > 0.1)
-            {
-                change.y = 0f;
-            }
-            else
-            {
-                change.y = 1f;
-            }
-        }
-        else if (myRigidbody.position.y < -6.5f)
-        {
-            if (randY > 0.25)
-            {
-                change.y = 1f;
-            }
-            else if (randY > 0.1)
-            {
-                change.y = 0f;
-            }
-            else
-            {
-                change.y = -1f;
-            }
-        }
-        else
-        {
-            if (randY > 0.665)
-            {
-                change.y = 1f;
-            }
-            else if (randY > 0.335)
-            {
-                change.y = -1f;
-            }
-            else
-            {
-                change.y = 0;
-            }
-        }
+        wanderAI.position = newPos;
+        track.target = wanderAI;
     }
 
     void UpdateAnim()
@@ -241,6 +147,7 @@ public class MonkeyMovement : MonoBehaviour
 
     void FindTarget()
     {
+        Debug.Log("Finding target");
         Collider2D[] locate = Physics2D.OverlapCircleAll(new Vector2(transform.position.x, transform.position.y), this.GetComponent<MonkeyGenes>().intelligence);
 
         List<Collider2D> objects = new List<Collider2D>(locate);
@@ -291,11 +198,12 @@ public class MonkeyMovement : MonoBehaviour
                 }
 
                 track.target = objects[index].transform;
+                aiPath.maxSpeed = targettingSpeed;
                 state._state = "Targetting";
             }
             else
             {
-                track.target = null;
+                aiPath.maxSpeed = wanderingSpeed;
                 state._state = "Confused";
             }
         }
@@ -331,11 +239,12 @@ public class MonkeyMovement : MonoBehaviour
                 }
 
                 track.target = objects[index].transform;
+                aiPath.maxSpeed = targettingSpeed;
                 state._state = "Targetting";
             }
             else
             {
-                track.target = null;
+                aiPath.maxSpeed = wanderingSpeed;
                 state._state = "Confused";
             }
         }

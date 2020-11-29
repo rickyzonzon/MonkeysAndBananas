@@ -11,7 +11,8 @@ public class GameController : MonoBehaviour
     public int currentTrees = 0;
     public int totalTrees = 0;
     public float mutationProbability = 0.24f;
-    public float energyLossTime = 4f;
+    public float energyLossRate = 4f;
+    public int startingEnergy = 100;
     public int currentMonkeys = 0;
     public int totalMonkeys = 0;
     public int numMutations = 0;

@@ -8,8 +8,8 @@ public class MonkeyStates : MonoBehaviour
 
     // public string[] allowedStates = { "Targetting", "Confused", "Deceased" }; 
     public string _state = "Confused";
-    public bool bored;
-    public bool breedable;
+    public bool bored = false;
+    public bool breedable = false;
     public bool baby;
     public int years = 0;
     public int months = 0;

@@ -23,10 +23,10 @@ public class MonkeyEnergy : MonoBehaviour
         game = GameObject.Find("GameController").GetComponent<GameController>();
         if (state.generation == 0)
         {
-            energy = 100;
+            energy = game.startingEnergy;
         }
 
-        InvokeRepeating("EnergyLoss", game.energyLossTime, game.energyLossTime);
+        InvokeRepeating("EnergyLoss", game.energyLossRate, game.energyLossRate);
     }
     
     void Update()
@@ -108,6 +108,10 @@ public class MonkeyEnergy : MonoBehaviour
                         MonkeyGenes babyGenes = baby.GetComponent<MonkeyGenes>();
                         game.currentMonkeys++;
                         game.totalMonkeys++;
+
+                        // add wanderAI to children
+                        GameObject wander = new GameObject("wanderAI");
+                        wander.transform.parent = baby.transform;
 
                         // pass on last name to baby
                         babyGenes.lastName = genes.lastName;

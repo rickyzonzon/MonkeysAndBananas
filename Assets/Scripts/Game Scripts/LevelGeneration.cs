@@ -47,6 +47,9 @@ public class LevelGeneration : MonoBehaviour
             game.objectPos.position = randPos;
             GameObject monkey = Instantiate(game.monkeyTemplate, game.objectPos.position, Quaternion.identity) as GameObject;
             monkey.name = "" + game.totalMonkeys;
+
+            GameObject wander = new GameObject("wanderAI");
+            wander.transform.parent = monkey.transform;
         }
     }
 
