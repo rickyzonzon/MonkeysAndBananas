@@ -237,8 +237,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   change: {x: 0, y: 0, z: 0}
   unclimbableTrees: []
-  wanderTimer: 0
   boredTimer: 0
+  boredTime: 0
 --- !u!114 &160253117997514624
 MonoBehaviour:
   m_ObjectHideFlags: 0

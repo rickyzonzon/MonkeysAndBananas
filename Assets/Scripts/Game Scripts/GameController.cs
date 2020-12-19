@@ -7,12 +7,13 @@ public class GameController : MonoBehaviour
 {
     public int treeSpawnFreq = 5;
     public int[] treeSpawnBounds = { 1, 6 };
+    public int treeEnergy = 10;
     public int maxTrees = 40;
     public int currentTrees = 0;
     public int totalTrees = 0;
     public float mutationProbability = 0.24f;
     public float energyLossRate = 4f;
-    public int startingEnergy = 100;
+    public int startingEnergy = 80;
     public int currentMonkeys = 0;
     public int totalMonkeys = 0;
     public int numMutations = 0;
@@ -52,6 +53,7 @@ public class GameController : MonoBehaviour
                                  "Munch", "Cheesy", "Blue", "Red", "Silver", "Orange", "Green", "Popsicle", "Grass" };
 
     public GameObject monkeyTemplate;
+    public ParticleSystem[] particles;
     public GameObject[] trees;
     public GameObject[] collidables;
 
@@ -108,6 +110,7 @@ public class GameController : MonoBehaviour
                     }
                     randPos.x = UnityEngine.Random.Range(-20f, 20f);
                     randPos.y = UnityEngine.Random.Range(-7.5f, 7.5f);
+                    randPos.z = -7.5f;
                     safetyNet++;
                 }
                 while (!SafeSpawn(randPos, "tree"));

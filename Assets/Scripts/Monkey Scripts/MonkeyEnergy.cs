@@ -62,15 +62,17 @@ public class MonkeyEnergy : MonoBehaviour
 
             if (genes.maxClimb >= tree.GetComponent<TreeController>().height)
             {
-                energy += 16;
+                energy += game.treeEnergy;
                 Destroy(tree);
                 game.currentTrees--;
+                movement.boredTimer = 0f;
             }
             else
             {
                 movement.unclimbableTrees.Add(tree);
                 track.target = null;
                 state._state = "Confused";
+                movement.boredTimer = 0f;
             }
         }
         // breed
@@ -112,6 +114,12 @@ public class MonkeyEnergy : MonoBehaviour
                         // add wanderAI to children
                         GameObject wander = new GameObject("wanderAI");
                         wander.transform.parent = baby.transform;
+
+                        // add particle system to children
+                        ParticleSystem hearts = Instantiate(game.particles[0], baby.transform.position, Quaternion.identity);
+                        ParticleSystem bored = Instantiate(game.particles[1], baby.transform.position, Quaternion.identity);
+                        hearts.transform.parent = baby.transform;
+                        bored.transform.parent = baby.transform;
 
                         // pass on last name to baby
                         babyGenes.lastName = genes.lastName;

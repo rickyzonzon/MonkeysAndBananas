@@ -19,17 +19,22 @@ public class MonkeyStates : MonoBehaviour
     public List<GameObject> mates;
     [HideInInspector] public int numChildren = 0;
     public List<GameObject> children;
+    private GameController game;
+    private ParticleSystem heartParticles;
+    private ParticleSystem boredParticles;
 
     // Start is called before the first frame update
     void Start()
     {
-        GameController game = this.GetComponent<GameController>();
+        game = this.GetComponent<GameController>();
 
         bored = false;
         breedable = false;
         baby = true;
         children = new List<GameObject>();      // we do not do this with parents because we initialize the parents already after spawning
         mates = new List<GameObject>();
+        heartParticles = transform.GetChild(1).GetComponent<ParticleSystem>();
+        boredParticles = transform.GetChild(2).GetComponent<ParticleSystem>();
     }
 
     void Update()
@@ -39,10 +44,41 @@ public class MonkeyStates : MonoBehaviour
         years = (int) ((10 * timeAlive) / 365);
         months = (int) (((10 * timeAlive) % 365) / 30);
 
+        var heartEmission = heartParticles.emission;
+        var boredEmission = boredParticles.emission;
+
+        if (baby)
+        {
+            transform.localScale = new Vector3(0.65f, 0.65f, 1);
+        }
+        else
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+
         if (months >= 10)
         {
             baby = false;
         }
-    }
 
+        if (breedable)
+        {
+            heartEmission.enabled = true;
+        //    heartParticles.transform.position = transform.position;
+        }
+        else
+        {
+            heartEmission.enabled = false;
+        }
+
+        if (bored)
+        {
+            boredEmission.enabled = true;
+        //    boredParticles.transform.position = transform.position;
+        }
+        else
+        {
+            boredEmission.enabled = false;
+        }
+    }
 }

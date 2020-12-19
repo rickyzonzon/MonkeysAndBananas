@@ -38,6 +38,7 @@ public class LevelGeneration : MonoBehaviour
                 }
                 randPos.x = UnityEngine.Random.Range(-20f, 20f);
                 randPos.y = UnityEngine.Random.Range(-7.5f, 7.5f);
+                randPos.z = -10f;
                 safetyNet++;
             }
             while (!game.SafeSpawn(randPos, "monkey"));
@@ -50,6 +51,11 @@ public class LevelGeneration : MonoBehaviour
 
             GameObject wander = new GameObject("wanderAI");
             wander.transform.parent = monkey.transform;
+
+            ParticleSystem hearts = Instantiate(game.particles[0], monkey.transform.position, Quaternion.identity);
+            ParticleSystem bored = Instantiate(game.particles[1], monkey.transform.position, Quaternion.identity);
+            hearts.transform.parent = monkey.transform;
+            bored.transform.parent = monkey.transform;
         }
     }
 
@@ -71,6 +77,7 @@ public class LevelGeneration : MonoBehaviour
                 }
                 randPos.x = UnityEngine.Random.Range(-20f, 20f);
                 randPos.y = UnityEngine.Random.Range(-7.5f, 7.5f);
+                randPos.z = -7.5f;
                 safetyNet++;
             }
             while (!game.SafeSpawn(randPos, "tree"));
@@ -101,6 +108,7 @@ public class LevelGeneration : MonoBehaviour
                 }
                 randPos.x = UnityEngine.Random.Range(-20f, 20f);
                 randPos.y = UnityEngine.Random.Range(-7.5f, 7.5f);
+                randPos.z = -5f;
                 safetyNet++;
             }
             while (!game.SafeSpawn(randPos, "collidables"));

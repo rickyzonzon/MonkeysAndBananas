@@ -21,7 +21,7 @@ public class MonkeyMovement : MonoBehaviour
     public float boredTimer = 0f;
     public float boredTime;
     private float wanderRange = 4f;
-    public Transform wanderAI;
+    private Transform wanderAI;
 
     // Start is called before the first frame update
     void Start()
@@ -36,7 +36,7 @@ public class MonkeyMovement : MonoBehaviour
         track = this.GetComponent<AIDestinationSetter>();
         unclimbableTrees = new List<GameObject>();
 
-        boredTime = (((targettingSpeed - game.targettingSpeedBounds[0]) * (3f - 10f)) / (game.targettingSpeedBounds[1] - game.targettingSpeedBounds[0])) + 10f;
+        boredTime = (((targettingSpeed - game.targettingSpeedBounds[0]) * (5f - 12f)) / (game.targettingSpeedBounds[1] - game.targettingSpeedBounds[0])) + 10f;
         wanderAI = transform.GetChild(0);
     }
 
@@ -55,6 +55,7 @@ public class MonkeyMovement : MonoBehaviour
                     if (state._state == "Confused")
                     {
                         Wandering();
+                        boredTimer = 0f;
                     }
                 }
             }
@@ -67,7 +68,7 @@ public class MonkeyMovement : MonoBehaviour
         }
         else
         {
-            if (boredTimer >= 3f)
+            if (boredTimer >= game.treeSpawnFreq)
             {
                 boredTimer = 0f;
                 state.bored = false;
