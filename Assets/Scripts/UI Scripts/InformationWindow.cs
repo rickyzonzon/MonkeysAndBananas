@@ -19,12 +19,12 @@ public class InformationWindow : MonoBehaviour
     {
         window = GameObject.Find("Info").GetComponent<Canvas>();
 
-        foreach (Transform child in window.transform)
+        foreach (RectTransform child in window.transform)
         {
-            child.GetComponent<RectTransform>().localScale = Vector3.zero;
-            foreach (Transform grandchild in child)
+            child.localScale = Vector3.zero;
+            foreach (RectTransform grandchild in child)
             {
-                grandchild.GetComponent<RectTransform>().localScale = Vector3.zero;
+                grandchild.localScale = Vector3.zero;
             }
         }
     }
@@ -47,7 +47,10 @@ public class InformationWindow : MonoBehaviour
             prevMonkey = monkey;
             if (count == 1)
             {
-                window.transform.GetChild(0).GetComponent<RectTransform>().transform.position = Camera.main.WorldToScreenPoint(monkey.transform.position);
+                foreach (RectTransform child in window.transform)
+                {
+                    child.transform.position = Camera.main.WorldToScreenPoint(monkey.transform.position);
+                }
             }
             genes = monkey.GetComponent<MonkeyGenes>();
             state = monkey.GetComponent<MonkeyStates>();
@@ -62,95 +65,128 @@ public class InformationWindow : MonoBehaviour
         {
             if (state.bored)
             {
-                window.transform.Find("Panel").Find("Bored Badge").GetComponent<Image>().color = new Color(1, 1, 1, 1);
-                window.transform.Find("Panel").Find("Bored").GetComponent<Image>().color = Color.white;
+                window.transform.Find("Badges").Find("Bored Badge").GetComponent<Image>().color = new Color(1, 1, 1, 0.8f);
+                window.transform.Find("Badges").Find("Bored Badge").Find("Bored").GetComponent<Image>().color = Color.white;
             }
             else
             {
-                window.transform.Find("Panel").Find("Bored Badge").GetComponent<Image>().color = new Color(1, 1, 1, 0.5f);
-                window.transform.Find("Panel").Find("Bored").GetComponent<Image>().color = Color.black;
+                window.transform.Find("Badges").Find("Bored Badge").GetComponent<Image>().color = new Color(1, 1, 1, 0.5f);
+                window.transform.Find("Badges").Find("Bored Badge").Find("Bored").GetComponent<Image>().color = Color.black;
             }
 
             if (state.breedable)
             {
-                window.transform.Find("Panel").Find("Breedable Badge").GetComponent<Image>().color = new Color(1, 1, 1, 1);
-                window.transform.Find("Panel").Find("Breedable").GetComponent<Image>().color = Color.white;
+                window.transform.Find("Badges").Find("Breedable Badge").GetComponent<Image>().color = new Color(1, 1, 1, 0.8f);
+                window.transform.Find("Badges").Find("Breedable Badge").Find("Breedable").GetComponent<Image>().color = Color.white;
             }
             else
             {
-                window.transform.Find("Panel").Find("Breedable Badge").GetComponent<Image>().color = new Color(1, 1, 1, 0.5f);
-                window.transform.Find("Panel").Find("Breedable").GetComponent<Image>().color = Color.black;
+                window.transform.Find("Badges").Find("Breedable Badge").GetComponent<Image>().color = new Color(1, 1, 1, 0.5f);
+                window.transform.Find("Badges").Find("Breedable Badge").Find("Breedable").GetComponent<Image>().color = Color.black;
             }
 
             if (genes.mutated)
             {
-                window.transform.Find("Panel").Find("Mutation Badge").GetComponent<Image>().color = new Color(1, 1, 1, 1);
-                window.transform.Find("Panel").Find("Mutated").GetComponent<Image>().color = Color.white;
+                window.transform.Find("Badges").Find("Mutation Badge").GetComponent<Image>().color = new Color(1, 1, 1, 0.8f);
+                window.transform.Find("Badges").Find("Mutation Badge").Find("Mutated").GetComponent<Image>().color = Color.white;
             }
             else
             {
-                window.transform.Find("Panel").Find("Mutation Badge").GetComponent<Image>().color = new Color(1, 1, 1, 0.5f);
-                window.transform.Find("Panel").Find("Mutated").GetComponent<Image>().color = Color.black;
+                window.transform.Find("Badges").Find("Mutation Badge").GetComponent<Image>().color = new Color(1, 1, 1, 0.5f);
+                window.transform.Find("Badges").Find("Mutation Badge").Find("Mutated").GetComponent<Image>().color = Color.black;
             }
 
             if (state.baby)
             {
-
+                window.transform.Find("Badges").Find("Baby Badge").GetComponent<Image>().color = new Color(1, 1, 1, 0.8f);
+                window.transform.Find("Badges").Find("Baby Badge").Find("Baby").GetComponent<Image>().color = Color.white;
             }
             else
             {
-
+                window.transform.Find("Badges").Find("Baby Badge").GetComponent<Image>().color = new Color(1, 1, 1, 0.5f);
+                window.transform.Find("Badges").Find("Baby Badge").Find("Baby").GetComponent<Image>().color = Color.black;
             }
 
-            //window.transform.Find("Panel").GetComponent<Image>().color = new Color(genes.red, genes.green, genes.blue, 0.8f);
-            window.transform.Find("Panel").Find("Name").GetComponent<Text>().text = "Name: " + genes.firstName + " " + genes.lastName;
-            window.transform.Find("Panel").Find("Energy").GetComponent<Text>().text = "Energy: " + energy.energy;
+            window.transform.Find("Panel").Find("Name").GetComponent<Text>().text = genes.firstName + " " + genes.lastName;
+            window.transform.Find("Panel").Find("Energy").GetComponent<Text>().text = "" + energy.energy;
+            window.transform.Find("Panel").Find("Age").GetComponent<Text>().text = state.years + " Years " + state.months + " Months";
+            window.transform.Find("Panel").Find("State").GetComponent<Text>().text = state._state;
+            window.transform.Find("Panel").Find("Generation").GetComponent<Text>().text = "" + state.generation;
 
-            window.transform.Find("Panel").Find("Intelligence").GetComponent<Text>().text = "Intelligence: " + genes.intelligence;
-            window.transform.Find("Panel").Find("Targetting Speed").GetComponent<Text>().text = "Targetting Speed: " + genes.targettingSpeed;
-            window.transform.Find("Panel").Find("Wandering Speed").GetComponent<Text>().text = "Wandering Speed: " + genes.wanderingSpeed;
-            window.transform.Find("Panel").Find("Targetting Stamina").GetComponent<Text>().text = "Targetting Stamina: " + genes.targettingStamina;
-            window.transform.Find("Panel").Find("Wandering Stamina").GetComponent<Text>().text = "Wandering Stamina: " + genes.wanderingStamina;
-            window.transform.Find("Panel").Find("Max Climb").GetComponent<Text>().text = "Max Climb: " + genes.maxClimb;
-            window.transform.Find("Panel").Find("Breeding Threshold").GetComponent<Text>().text = "Breeding Threshold: " + genes.breedingThreshold;
-            window.transform.Find("Panel").Find("Energy Passover").GetComponent<Text>().text = "Energy Passover: " + genes.babyEnergy;
+            window.transform.Find("Panel").Find("Intelligence").GetComponent<Text>().text = "" + System.Math.Round(genes.intelligence, 3);
+            window.transform.Find("Panel").Find("Size").GetComponent<Text>().text = "" + System.Math.Round(genes.size, 3);
+            window.transform.Find("Panel").Find("Targeting Speed").GetComponent<Text>().text = "" + System.Math.Round(genes.targettingSpeed, 3);
+            window.transform.Find("Panel").Find("Wandering Speed").GetComponent<Text>().text = "" + System.Math.Round(genes.wanderingSpeed, 3);
+            window.transform.Find("Panel").Find("Targeting Stamina").GetComponent<Text>().text = "" + genes.targettingStamina;
+            window.transform.Find("Panel").Find("Wandering Stamina").GetComponent<Text>().text = "" + genes.wanderingStamina;
+            window.transform.Find("Panel").Find("Max Climb").GetComponent<Text>().text = "" + genes.maxClimb;
+            window.transform.Find("Panel").Find("Breeding Threshold").GetComponent<Text>().text = "" + genes.breedingThreshold;
+            window.transform.Find("Panel").Find("Energy Passover").GetComponent<Text>().text = "" + genes.babyEnergy;
 
-            RectTransform rectTransform = window.transform.GetChild(0).GetComponent<RectTransform>();
             Vector3 monkeyPos = Camera.main.WorldToScreenPoint(monkey.transform.position);
             Vector3 targetPos = Vector3.zero;
 
-            foreach (Transform child in window.transform)
+            foreach (RectTransform child in window.transform)
             {
-                child.GetComponent<RectTransform>().localScale = Vector3.Lerp(child.GetComponent<RectTransform>().localScale, new Vector3(1f, 1f, 1f), 5f * Time.deltaTime);
-                foreach (Transform grandchild in child)
+                child.localScale = Vector3.Lerp(child.localScale, new Vector3(1f, 1f, 1f), 3.5f * Time.deltaTime);
+                foreach (RectTransform grandchild in child)
                 {
-                    grandchild.GetComponent<RectTransform>().localScale = Vector3.Lerp(grandchild.GetComponent<RectTransform>().localScale, new Vector3(1f, 1f, 1f), 5f * Time.deltaTime);
+                    switch (grandchild.transform.name)
+                    {
+                        case "Name":
+                        case "Energy":
+                        case "Age":
+                        case "State":
+                        case "Generation":
+                            grandchild.localScale = Vector3.Lerp(grandchild.localScale, new Vector3(0.22f, 0.22f, 1f), 3.5f * Time.deltaTime);
+                            break;
+                        case "Intelligence":
+                        case "Size":
+                        case "Targeting Speed":
+                        case "Wandering Speed":
+                        case "Targeting Stamina":
+                        case "Wandering Stamina":
+                        case "Max Climb":
+                        case "Breeding Threshold":
+                        case "Energy Passover":
+                            grandchild.localScale = Vector3.Lerp(grandchild.localScale, new Vector3(0.18f, 0.18f, 0.18f), 3.5f * Time.deltaTime);
+                            break;
+                        default:
+                            grandchild.localScale = Vector3.Lerp(grandchild.localScale, new Vector3(1f, 1f, 1f), 3.5f * Time.deltaTime);
+                            break;
+                    }
                 }
 
-                targetPos.x = Mathf.Clamp(monkeyPos.x + 400, 0f, Screen.width - 25 - rectTransform.rect.width / 2);
-                targetPos.y = Mathf.Clamp(monkeyPos.y, 25 + rectTransform.rect.height / 2, Screen.height - 25 - rectTransform.rect.height / 2);
-                rectTransform.transform.position = Vector3.MoveTowards(rectTransform.transform.position, targetPos, 600f * Time.deltaTime);
+                switch (child.transform.name)
+                {
+                    case "Panel":
+                        targetPos.x = Mathf.Clamp(monkeyPos.x + 450, 0f, Screen.width - 25 - child.rect.width / 2);
+                        targetPos.y = Mathf.Clamp(monkeyPos.y, 25 + child.rect.height / 2, Screen.height - 25 - child.rect.height / 2);
+                        break;
+                    case "Badges":
+                        targetPos.x = Mathf.Clamp(monkeyPos.x - 200, 0f, Screen.width - 100 - window.transform.Find("Panel").GetComponent<RectTransform>().rect.width);
+                        targetPos.y = Mathf.Clamp(monkeyPos.y, 25 + child.rect.height / 2, Screen.height - 25 - child.rect.height / 2);
+                        break;
+                }
+                    child.transform.position = Vector3.MoveTowards(child.transform.position, targetPos, 400f * Time.deltaTime);
             }
-
         }
         else
         {
             if (prevMonkey != null)
             {
-                RectTransform rectTransform = window.transform.GetChild(0).GetComponent<RectTransform>();
                 Vector3 monkeyPos = Camera.main.WorldToScreenPoint(prevMonkey.transform.position);
 
-                foreach (Transform child in window.transform)
+                foreach (RectTransform child in window.transform)
                 {
-                    child.GetComponent<RectTransform>().localScale = Vector3.Lerp(child.GetComponent<RectTransform>().localScale, Vector3.zero, 5f * Time.deltaTime);
-                    foreach (Transform grandchild in child)
-                    {
-                        grandchild.GetComponent<RectTransform>().localScale = Vector3.Lerp(grandchild.GetComponent<RectTransform>().localScale, Vector3.zero, 5f * Time.deltaTime);
-                    }
-
+                    child.localScale = Vector3.Lerp(child.localScale, Vector3.zero, 3.5f * Time.deltaTime);
                     if (!firstTarget)
                     {
-                        rectTransform.transform.position = Vector3.MoveTowards(rectTransform.transform.position, monkeyPos, 600f * Time.deltaTime);
+                        child.transform.position = Vector3.MoveTowards(child.transform.position, monkeyPos, 400f * Time.deltaTime);
+                    }
+                    foreach (RectTransform grandchild in child)
+                    {
+                        grandchild.localScale = Vector3.Lerp(grandchild.localScale, Vector3.zero, 3.5f * Time.deltaTime);
                     }
                 }
             }

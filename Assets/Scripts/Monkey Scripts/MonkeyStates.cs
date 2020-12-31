@@ -49,11 +49,11 @@ public class MonkeyStates : MonoBehaviour
 
         if (baby)
         {
-            transform.localScale = new Vector3(0.65f, 0.65f, 1);
+            
         }
         else
         {
-            transform.localScale = new Vector3(1, 1, 1);
+            
         }
 
         if (months >= 10)
@@ -64,7 +64,6 @@ public class MonkeyStates : MonoBehaviour
         if (breedable)
         {
             heartEmission.enabled = true;
-        //    heartParticles.transform.position = transform.position;
         }
         else
         {
@@ -74,7 +73,6 @@ public class MonkeyStates : MonoBehaviour
         if (bored)
         {
             boredEmission.enabled = true;
-        //    boredParticles.transform.position = transform.position;
         }
         else
         {

@@ -6,12 +6,12 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     public int treeSpawnFreq = 5;
-    public int[] treeSpawnBounds = { 1, 6 };
-    public int treeEnergy = 10;
+    public int[] treeSpawnBounds = { 1, 4 };
+    public int treeEnergy = 16;
     public int maxTrees = 40;
     public int currentTrees = 0;
     public int totalTrees = 0;
-    public float mutationProbability = 0.24f;
+    public float mutationProbability = 0.27f;
     public float energyLossRate = 4f;
     public int startingEnergy = 80;
     public int currentMonkeys = 0;
@@ -24,14 +24,15 @@ public class GameController : MonoBehaviour
     public bool extinction = false;
 
     public float[] colorBounds = { 0.35f, 1f };
-    public float[] intelligenceBounds = { 2.5f, 9f }; // Detection radius
-    public float[] targettingSpeedBounds = { 0.5f, 4.5f };
-    public float[] wanderingSpeedBounds = { 1.5f, 5f };
-    public int[] targettingStaminaBounds = { 2, 6 };
-    public int[] wanderingStaminaBounds = { 2, 6 };
+    public float[] intelligenceBounds = { 2f, 7f }; // Detection radius
+    public float[] sizeBounds = { 0.65f, 2.25f };
+    public float[] targettingSpeedBounds = { 0.5f, 3.5f };
+    public float[] wanderingSpeedBounds = { 1f, 4f };
+    public int[] targettingStaminaBounds = { 1, 6 };
+    public int[] wanderingStaminaBounds = { 1, 6 };
     public int[] maxClimbBounds = { 1, 6 };
-    public int[] breedingThresholdBounds = { 80, 41 };
-    public int[] babyEnergyBounds = { 10, 51 };
+    public int[] breedingThresholdBounds = { 70, 161 };
+    public int[] babyEnergyBounds = { 10, 61 };
 
     [System.NonSerialized]
     public string[] firstNames = { "Abu", "Aldo", "Amy", "Andross", "Ari", "Bingo", "Babo", "Bobo", "Bonzo",

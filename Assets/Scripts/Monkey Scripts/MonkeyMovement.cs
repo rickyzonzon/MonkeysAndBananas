@@ -14,6 +14,7 @@ public class MonkeyMovement : MonoBehaviour
     public Vector3 change;
     private Animator animator;
     private GameController game;
+    private MonkeyGenes genes;
     private MonkeyStates state;
     private AIPath aiPath;
     private AIDestinationSetter track;
@@ -22,6 +23,10 @@ public class MonkeyMovement : MonoBehaviour
     public float boredTime;
     private float wanderRange = 4f;
     private Transform wanderAI;
+    private bool bump = false;
+    private float bumpTimer = 0f;
+    private Vector3 bumpDir = Vector3.zero;
+    private float bumpMag = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +36,7 @@ public class MonkeyMovement : MonoBehaviour
         myRigidbody = this.GetComponent<Rigidbody2D>();
         animator = this.GetComponent<Animator>();
         game = GameObject.Find("GameController").GetComponent<GameController>();
+        genes = this.GetComponent<MonkeyGenes>();
         state = this.GetComponent<MonkeyStates>();
         aiPath = this.GetComponent<AIPath>();
         track = this.GetComponent<AIDestinationSetter>();
@@ -76,8 +82,39 @@ public class MonkeyMovement : MonoBehaviour
             }
         }
 
+        if (bump)
+        {
+            if (bumpTimer <= 4f)
+            {
+                bumpTimer += Time.deltaTime;
+                myRigidbody.AddForce(bumpDir * bumpMag * (4f/bumpTimer), ForceMode2D.Force);
+            }
+            else
+            {
+                bumpTimer = 0f;
+                bump = false;
+            }
+
+        }
+
         ChangeDirection();
         UpdateAnim();
+    }
+
+    void OnCollisionEnter2D(Collision2D hit)
+    {
+        if (hit.gameObject.tag == "monkey")
+        {
+            if (!hit.gameObject.GetComponent<MonkeyStates>().breedable || !state.breedable)
+            {
+                if (hit.gameObject.GetComponent<MonkeyGenes>().size > genes.size)
+                {
+                    bumpDir = (transform.position - hit.transform.position).normalized;
+                    bumpMag = 4.5f * (hit.gameObject.GetComponent<MonkeyGenes>().size - genes.size);
+                    bump = true;
+                }
+            }
+        }
     }
 
     void OnTargetReached()
@@ -148,7 +185,6 @@ public class MonkeyMovement : MonoBehaviour
 
     void FindTarget()
     {
-        Debug.Log("Finding target");
         Collider2D[] locate = Physics2D.OverlapCircleAll(new Vector2(transform.position.x, transform.position.y), this.GetComponent<MonkeyGenes>().intelligence);
 
         List<Collider2D> objects = new List<Collider2D>(locate);
