@@ -178,6 +178,7 @@ MonoBehaviour:
   years: 0
   months: 0
   generation: 0
+  natural: 1
   parents: []
   mates: []
   numChildren: 0
@@ -204,9 +205,9 @@ MonoBehaviour:
   mutated: 0
   intelligence: 0
   size: 0
-  targettingSpeed: 0
+  targetingSpeed: 0
   wanderingSpeed: 0
-  targettingStamina: 0
+  targetingStamina: 0
   wanderingStamina: 0
   maxClimb: 0
   breedingThreshold: 0

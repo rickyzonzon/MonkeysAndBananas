@@ -10,11 +10,12 @@ public class MonkeyStates : MonoBehaviour
     public string _state = "Confused";
     public bool bored = false;
     public bool breedable = false;
-    public bool baby;
+    public bool baby = true;
     public int years = 0;
     public int months = 0;
     private float timeAlive = 0f;
     public int generation = 0;
+    public bool natural = true;
     public List<GameObject> parents;
     public List<GameObject> mates;
     [HideInInspector] public int numChildren = 0;
@@ -28,9 +29,6 @@ public class MonkeyStates : MonoBehaviour
     {
         game = this.GetComponent<GameController>();
 
-        bored = false;
-        breedable = false;
-        baby = true;
         children = new List<GameObject>();      // we do not do this with parents because we initialize the parents already after spawning
         mates = new List<GameObject>();
         heartParticles = transform.GetChild(1).GetComponent<ParticleSystem>();

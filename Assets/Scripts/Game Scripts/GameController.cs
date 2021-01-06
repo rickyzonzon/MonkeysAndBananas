@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
+    public bool paused = false;
     public int treeSpawnFreq = 5;
     public int[] treeSpawnBounds = { 1, 4 };
-    public int treeEnergy = 16;
     public int maxTrees = 40;
     public int currentTrees = 0;
     public int totalTrees = 0;
@@ -25,10 +25,10 @@ public class GameController : MonoBehaviour
 
     public float[] colorBounds = { 0.35f, 1f };
     public float[] intelligenceBounds = { 2f, 7f }; // Detection radius
-    public float[] sizeBounds = { 0.65f, 2.25f };
-    public float[] targettingSpeedBounds = { 0.5f, 3.5f };
+    public float[] sizeBounds = { 0.65f, 1.5f };
+    public float[] targetingSpeedBounds = { 0.5f, 3.5f };
     public float[] wanderingSpeedBounds = { 1f, 4f };
-    public int[] targettingStaminaBounds = { 1, 6 };
+    public int[] targetingStaminaBounds = { 1, 6 };
     public int[] wanderingStaminaBounds = { 1, 6 };
     public int[] maxClimbBounds = { 1, 6 };
     public int[] breedingThresholdBounds = { 70, 161 };
@@ -47,7 +47,7 @@ public class GameController : MonoBehaviour
                                   "Rio", "Nim", "King", "Zuzu", "Juju" };
     [System.NonSerialized]
     public string[] lastNames = { "Curious", "Caesar", "Bubbles", "Kong", "Beans", "Ape", "Cheeks", "Congo", "Sun",
-                                 "Bing Bong", "Yum Yum", "Hopper", "Jelly", "Sugar", "Jaffa", "Crunch", "Butter",
+                                 "Bing-Bong", "Yum-Yum", "Hopper", "Jelly", "Sugar", "Jaffa", "Crunch", "Butter",
                                  "Banana", "Marbles", "Chiffon", "Marzipan", "Raisin", "Chunk", "Mentos", "Nectar",
                                  "Duck", "Pez", "Brownie", "Mustard", "Scrappy", "Wiggles", "Tango", "Jabba",
                                  "Monkey", "Bunny", "Buffalo", "Mandarin", "Wobble", "Rider", "Stone", "Rock", "Steel",
@@ -78,6 +78,7 @@ public class GameController : MonoBehaviour
 
         if (extinction)
         {
+            // TODO
             Time.timeScale = 0;
         }
 
@@ -91,7 +92,7 @@ public class GameController : MonoBehaviour
         monthsOfExistence = (int)(((10 * timeOfExistence) % 365) / 30);
     }
 
-    void SpawnTree()
+    public GameObject SpawnTree()
     {
         int randNum = UnityEngine.Random.Range(treeSpawnBounds[0], treeSpawnBounds[1]);
         for (int i = 0; i < randNum; i++)
@@ -120,8 +121,40 @@ public class GameController : MonoBehaviour
                 GameObject tree = Instantiate(trees[randObj], objectPos.position, Quaternion.identity) as GameObject;
                 currentTrees++;
                 totalTrees++;
+
+                return tree;
             }
         }
+
+        return null;
+    }
+
+    public GameObject SpawnTree(Vector3 pos, int height)
+    {
+        GameObject tree = Instantiate(trees[height - 1], pos, Quaternion.identity) as GameObject;
+        currentTrees++;
+        totalTrees++;
+
+        return tree;
+    }
+
+    public GameObject SpawnMonkey(Vector3 pos)
+    {
+        currentMonkeys++;
+        totalMonkeys++;
+        objectPos.position = pos;
+        GameObject monkey = Instantiate(monkeyTemplate, pos, Quaternion.identity) as GameObject;
+        monkey.name = "" + totalMonkeys;
+
+        GameObject wander = new GameObject("wanderAI");
+        ParticleSystem hearts = Instantiate(particles[0], monkey.transform.position, Quaternion.identity);
+        ParticleSystem bored = Instantiate(particles[1], monkey.transform.position, Quaternion.identity);
+
+        wander.transform.parent = monkey.transform;
+        hearts.transform.parent = monkey.transform;
+        bored.transform.parent = monkey.transform;
+
+        return monkey;
     }
 
     public bool SafeSpawn(Vector3 pos, String type)
@@ -130,10 +163,10 @@ public class GameController : MonoBehaviour
 
         if (type == "tree" || type == "monkey")
         {
-            overlap = Physics2D.OverlapCircle(new Vector2(pos.x, pos.y), 1);
+            overlap = Physics2D.OverlapCircle(new Vector2(pos.x, pos.y), 0.5f);
         } else
         {
-            overlap = Physics2D.OverlapCircle(new Vector2(pos.x, pos.y), 2);
+            overlap = Physics2D.OverlapCircle(new Vector2(pos.x, pos.y), 1f);
         }
 
         if (overlap == null)
@@ -143,5 +176,10 @@ public class GameController : MonoBehaviour
         {
             return false;
         }
+    }
+
+    public void CloseGame()
+    {
+        Application.Quit();
     }
 }

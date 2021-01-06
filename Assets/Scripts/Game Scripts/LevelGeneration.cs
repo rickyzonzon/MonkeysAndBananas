@@ -43,19 +43,7 @@ public class LevelGeneration : MonoBehaviour
             }
             while (!game.SafeSpawn(randPos, "monkey"));
 
-            game.currentMonkeys++;
-            game.totalMonkeys++;
-            game.objectPos.position = randPos;
-            GameObject monkey = Instantiate(game.monkeyTemplate, game.objectPos.position, Quaternion.identity) as GameObject;
-            monkey.name = "" + game.totalMonkeys;
-
-            GameObject wander = new GameObject("wanderAI");
-            wander.transform.parent = monkey.transform;
-
-            ParticleSystem hearts = Instantiate(game.particles[0], monkey.transform.position, Quaternion.identity);
-            ParticleSystem bored = Instantiate(game.particles[1], monkey.transform.position, Quaternion.identity);
-            hearts.transform.parent = monkey.transform;
-            bored.transform.parent = monkey.transform;
+            game.SpawnMonkey(randPos);
         }
     }
 

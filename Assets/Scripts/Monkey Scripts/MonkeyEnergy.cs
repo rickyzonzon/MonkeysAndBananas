@@ -31,8 +31,6 @@ public class MonkeyEnergy : MonoBehaviour
     
     void Update()
     {
-        // if collides with tree, then EatBanana
-        // return;
         if (energy <= 0)
         {
             state._state = "Deceased";
@@ -62,7 +60,7 @@ public class MonkeyEnergy : MonoBehaviour
 
             if (genes.maxClimb >= tree.GetComponent<TreeController>().height)
             {
-                energy += game.treeEnergy;
+                energy += tree.GetComponent<TreeController>().energy;
                 Destroy(tree);
                 game.currentTrees--;
                 movement.boredTimer = 0f;
@@ -115,20 +113,8 @@ public class MonkeyEnergy : MonoBehaviour
 
         // spawn the baby
         Vector3 babyPos = new Vector3(parent.transform.position.x, parent.transform.position.y - 1, parent.transform.position.z);
-        GameObject baby = Instantiate(game.monkeyTemplate, babyPos, Quaternion.identity) as GameObject;
+        GameObject baby = game.SpawnMonkey(babyPos);
         MonkeyGenes babyGenes = baby.GetComponent<MonkeyGenes>();
-        game.currentMonkeys++;
-        game.totalMonkeys++;
-
-        // add wanderAI to children
-        GameObject wander = new GameObject("wanderAI");
-        wander.transform.parent = baby.transform;
-
-        // add particle system to children
-        ParticleSystem hearts = Instantiate(game.particles[0], baby.transform.position, Quaternion.identity);
-        ParticleSystem bored = Instantiate(game.particles[1], baby.transform.position, Quaternion.identity);
-        hearts.transform.parent = baby.transform;
-        bored.transform.parent = baby.transform;
 
         // pass on last name to baby
         babyGenes.lastName = genes.lastName;
@@ -173,15 +159,15 @@ public class MonkeyEnergy : MonoBehaviour
             babyGenes.size = parentGenes.size;
         }
 
-        // inheriting targetting speed
+        // inheriting targeting speed
         randGene = UnityEngine.Random.Range(0, 2);
         if (randGene == 0)
         {
-            babyGenes.targettingSpeed = genes.targettingSpeed;
+            babyGenes.targetingSpeed = genes.targetingSpeed;
         }
         else
         {
-            babyGenes.targettingSpeed = parentGenes.targettingSpeed;
+            babyGenes.targetingSpeed = parentGenes.targetingSpeed;
         }
 
         // inheriting wandering speed
@@ -195,15 +181,15 @@ public class MonkeyEnergy : MonoBehaviour
             babyGenes.wanderingSpeed = parentGenes.wanderingSpeed;
         }
 
-        // inheriting targetting stamina
+        // inheriting targeting stamina
         randGene = UnityEngine.Random.Range(0, 2);
         if (randGene == 0)
         {
-            babyGenes.targettingStamina = genes.targettingStamina;
+            babyGenes.targetingStamina = genes.targetingStamina;
         }
         else
         {
-            babyGenes.targettingStamina = parentGenes.targettingStamina;
+            babyGenes.targetingStamina = parentGenes.targetingStamina;
         }
 
         // inheriting wandering stamina
@@ -277,7 +263,7 @@ public class MonkeyEnergy : MonoBehaviour
     {
         if (state._state == "Targetting")
         {
-            energy -= genes.targettingStamina;
+            energy -= genes.targetingStamina;
         }
         else
         {

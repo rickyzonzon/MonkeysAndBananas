@@ -8,6 +8,9 @@ TextureImporter:
   - first:
       213: -1899512091720240610
     second: overworld 1_1
+  - first:
+      213: -8215969910117786717
+    second: overworld 1_2
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -113,7 +116,7 @@ TextureImporter:
         width: 62
         height: 60
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -134,7 +137,7 @@ TextureImporter:
         width: 64
         height: 29
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -142,6 +145,27 @@ TextureImporter:
       bones: []
       spriteID: e12b47e01d393a5e0800000000000000
       internalID: -1899512091720240610
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: overworld 1_2
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 0
+        width: 30
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ab912695e20bfd80800000000000000
+      internalID: -8215969910117786717
       vertices: []
       indices: 
       edges: []

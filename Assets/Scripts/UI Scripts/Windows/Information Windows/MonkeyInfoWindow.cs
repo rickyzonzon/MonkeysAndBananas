@@ -3,21 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InformationWindow : MonoBehaviour
+public class MonkeyInfoWindow : MonoBehaviour
 {
     private Canvas window;
+    public bool toggleInfo = true;
     public GameObject monkey;
-    private GameObject prevMonkey;
     private MonkeyGenes genes;
     private MonkeyStates state;
     private MonkeyEnergy energy;
+    private GameController game;
     private bool showInfo = false;
     private int count = 0;
-    private bool firstTarget = true;
 
     void Start()
     {
-        window = GameObject.Find("Info").GetComponent<Canvas>();
+        window = GameObject.Find("Monkey Info").GetComponent<Canvas>();
+        game = GameObject.Find("GameController").GetComponent<GameController>();
 
         foreach (RectTransform child in window.transform)
         {
@@ -31,31 +32,38 @@ public class InformationWindow : MonoBehaviour
 
     void Update()
     {
-        count++;
-        Transform target = this.GetComponent<CameraFollow>().target;
+        if (toggleInfo)
+        {
+            count++;
+            Transform target = this.GetComponent<CameraFollow>().target;
 
-        if (target == null)
+            if (target == null || target.gameObject.tag == "tree")
+            {
+                count = 0;
+                monkey = null;
+                showInfo = false;
+            }
+            else
+            {
+                monkey = target.gameObject;
+                if (count == 1)
+                {
+                    foreach (RectTransform child in window.transform)
+                    {
+                        child.transform.position = Camera.main.WorldToScreenPoint(monkey.transform.position);
+                    }
+                }
+                genes = monkey.GetComponent<MonkeyGenes>();
+                state = monkey.GetComponent<MonkeyStates>();
+                energy = monkey.GetComponent<MonkeyEnergy>();
+                showInfo = true;
+            }
+        }
+        else
         {
             count = 0;
             monkey = null;
             showInfo = false;
-        }
-        else
-        {
-            firstTarget = false;
-            monkey = target.gameObject;
-            prevMonkey = monkey;
-            if (count == 1)
-            {
-                foreach (RectTransform child in window.transform)
-                {
-                    child.transform.position = Camera.main.WorldToScreenPoint(monkey.transform.position);
-                }
-            }
-            genes = monkey.GetComponent<MonkeyGenes>();
-            state = monkey.GetComponent<MonkeyStates>();
-            energy = monkey.GetComponent<MonkeyEnergy>();
-            showInfo = true;
         }
     }
 
@@ -107,6 +115,15 @@ public class InformationWindow : MonoBehaviour
                 window.transform.Find("Badges").Find("Baby Badge").Find("Baby").GetComponent<Image>().color = Color.black;
             }
 
+            if (state.natural)
+            {
+                window.transform.Find("Panel").Find("Natural").GetComponent<Image>().color = new Color(1, 1, 1, 0f);
+            }
+            else
+            {
+                window.transform.Find("Panel").Find("Natural").GetComponent<Image>().color = new Color(1, 1, 1, 0.8f);
+            }
+
             window.transform.Find("Panel").Find("Name").GetComponent<Text>().text = genes.firstName + " " + genes.lastName;
             window.transform.Find("Panel").Find("Energy").GetComponent<Text>().text = "" + energy.energy;
             window.transform.Find("Panel").Find("Age").GetComponent<Text>().text = state.years + " Years " + state.months + " Months";
@@ -115,9 +132,9 @@ public class InformationWindow : MonoBehaviour
 
             window.transform.Find("Panel").Find("Intelligence").GetComponent<Text>().text = "" + System.Math.Round(genes.intelligence, 3);
             window.transform.Find("Panel").Find("Size").GetComponent<Text>().text = "" + System.Math.Round(genes.size, 3);
-            window.transform.Find("Panel").Find("Targeting Speed").GetComponent<Text>().text = "" + System.Math.Round(genes.targettingSpeed, 3);
+            window.transform.Find("Panel").Find("Targeting Speed").GetComponent<Text>().text = "" + System.Math.Round(genes.targetingSpeed, 3);
             window.transform.Find("Panel").Find("Wandering Speed").GetComponent<Text>().text = "" + System.Math.Round(genes.wanderingSpeed, 3);
-            window.transform.Find("Panel").Find("Targeting Stamina").GetComponent<Text>().text = "" + genes.targettingStamina;
+            window.transform.Find("Panel").Find("Targeting Stamina").GetComponent<Text>().text = "" + genes.targetingStamina;
             window.transform.Find("Panel").Find("Wandering Stamina").GetComponent<Text>().text = "" + genes.wanderingStamina;
             window.transform.Find("Panel").Find("Max Climb").GetComponent<Text>().text = "" + genes.maxClimb;
             window.transform.Find("Panel").Find("Breeding Threshold").GetComponent<Text>().text = "" + genes.breedingThreshold;
@@ -128,7 +145,15 @@ public class InformationWindow : MonoBehaviour
 
             foreach (RectTransform child in window.transform)
             {
-                child.localScale = Vector3.Lerp(child.localScale, new Vector3(1f, 1f, 1f), 3.5f * Time.deltaTime);
+                if (game.paused)
+                {
+                    child.localScale = Vector3.Lerp(child.localScale, new Vector3(1f, 1f, 1f), 3.5f / 100);
+                }
+                else
+                {
+                    child.localScale = Vector3.Lerp(child.localScale, new Vector3(1f, 1f, 1f), 3.5f * Time.deltaTime);
+                }
+
                 foreach (RectTransform grandchild in child)
                 {
                     switch (grandchild.transform.name)
@@ -138,7 +163,14 @@ public class InformationWindow : MonoBehaviour
                         case "Age":
                         case "State":
                         case "Generation":
-                            grandchild.localScale = Vector3.Lerp(grandchild.localScale, new Vector3(0.22f, 0.22f, 1f), 3.5f * Time.deltaTime);
+                            if (game.paused)
+                            {
+                                grandchild.localScale = Vector3.Lerp(grandchild.localScale, new Vector3(0.22f, 0.22f, 1f), 3.5f / 100);
+                            }
+                            else
+                            {
+                                grandchild.localScale = Vector3.Lerp(grandchild.localScale, new Vector3(0.22f, 0.22f, 1f), 3.5f * Time.deltaTime);
+                            }
                             break;
                         case "Intelligence":
                         case "Size":
@@ -149,10 +181,25 @@ public class InformationWindow : MonoBehaviour
                         case "Max Climb":
                         case "Breeding Threshold":
                         case "Energy Passover":
-                            grandchild.localScale = Vector3.Lerp(grandchild.localScale, new Vector3(0.18f, 0.18f, 0.18f), 3.5f * Time.deltaTime);
+                            if (game.paused)
+                            {
+                                grandchild.localScale = Vector3.Lerp(grandchild.localScale, new Vector3(0.18f, 0.18f, 1f), 3.5f / 100);
+                            }
+                            else
+                            {
+                                grandchild.localScale = Vector3.Lerp(grandchild.localScale, new Vector3(0.18f, 0.18f, 1f), 3.5f * Time.deltaTime);
+                            }
                             break;
                         default:
-                            grandchild.localScale = Vector3.Lerp(grandchild.localScale, new Vector3(1f, 1f, 1f), 3.5f * Time.deltaTime);
+                            if (game.paused)
+                            {
+                                grandchild.localScale = Vector3.Lerp(grandchild.localScale, new Vector3(1f, 1f, 1f), 3.5f / 100);
+                            }
+                            else
+                            {
+                                grandchild.localScale = Vector3.Lerp(grandchild.localScale, new Vector3(1f, 1f, 1f), 3.5f * Time.deltaTime);
+                            }
+                            
                             break;
                     }
                 }
@@ -160,34 +207,34 @@ public class InformationWindow : MonoBehaviour
                 switch (child.transform.name)
                 {
                     case "Panel":
-                        targetPos.x = Mathf.Clamp(monkeyPos.x + 450, 0f, Screen.width - 25 - child.rect.width / 2);
-                        targetPos.y = Mathf.Clamp(monkeyPos.y, 25 + child.rect.height / 2, Screen.height - 25 - child.rect.height / 2);
+                        targetPos.x = Mathf.Clamp(monkeyPos.x + 450, 25 + child.rect.width, Screen.width - 25 - child.rect.width / 2);
+                        targetPos.y = Mathf.Clamp(monkeyPos.y, 25 + child.rect.height / 2, Screen.height - GameObject.Find("Button Menu").transform.Find("Buttons").GetComponent<RectTransform>().rect.height - 25 - child.rect.height / 2);
                         break;
                     case "Badges":
-                        targetPos.x = Mathf.Clamp(monkeyPos.x - 200, 0f, Screen.width - 100 - window.transform.Find("Panel").GetComponent<RectTransform>().rect.width);
-                        targetPos.y = Mathf.Clamp(monkeyPos.y, 25 + child.rect.height / 2, Screen.height - 25 - child.rect.height / 2);
+                        targetPos.x = Mathf.Clamp(monkeyPos.x - 200, 25 + child.rect.width / 2, Screen.width - 100 - window.transform.Find("Panel").GetComponent<RectTransform>().rect.width);
+                        targetPos.y = Mathf.Clamp(monkeyPos.y, 25 + child.rect.height / 2, Screen.height - GameObject.Find("Button Menu").transform.Find("Buttons").GetComponent<RectTransform>().rect.height - 25 - child.rect.height / 2);
                         break;
                 }
+
+                if (game.paused)
+                {
+                    child.transform.position = Vector3.MoveTowards(child.transform.position, targetPos, 400f / 100f);
+                }
+                else
+                {
                     child.transform.position = Vector3.MoveTowards(child.transform.position, targetPos, 400f * Time.deltaTime);
+                }
             }
         }
         else
         {
-            if (prevMonkey != null)
+            foreach (RectTransform child in window.transform)
             {
-                Vector3 monkeyPos = Camera.main.WorldToScreenPoint(prevMonkey.transform.position);
+                child.localScale = Vector3.zero;
 
-                foreach (RectTransform child in window.transform)
+                foreach (RectTransform grandchild in child)
                 {
-                    child.localScale = Vector3.Lerp(child.localScale, Vector3.zero, 3.5f * Time.deltaTime);
-                    if (!firstTarget)
-                    {
-                        child.transform.position = Vector3.MoveTowards(child.transform.position, monkeyPos, 400f * Time.deltaTime);
-                    }
-                    foreach (RectTransform grandchild in child)
-                    {
-                        grandchild.localScale = Vector3.Lerp(grandchild.localScale, Vector3.zero, 3.5f * Time.deltaTime);
-                    }
+                    grandchild.localScale = Vector3.zero;
                 }
             }
         }

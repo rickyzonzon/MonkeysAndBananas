@@ -1,21 +1,22 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Security.Cryptography;
 using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
     public Transform target;
+    public bool toggleFollow = true;
+    [HideInInspector] public bool toggleToggleFollow = true;
     public float followSmoothing = 0.05f;
     public float panSmoothing = 5f;
     public float panSpeed = 10f;
-    public float panBorderThickness = 40f;
+    public float panBorderRadius = 40f;
     private Vector2 maxPos;
     private Vector2 minPos;
     private Vector2 convert;
     private CameraZoom zoom;
+    private GameController game;
 
     // KEEP THESE VALUES CONSTANT
     private float ORTHO_MAX = 2.5f;               
@@ -30,31 +31,47 @@ public class CameraFollow : MonoBehaviour
     void Start()
     {
         zoom = this.GetComponent<Camera>().GetComponent<CameraZoom>();
+        game = GameObject.Find("GameController").GetComponent<GameController>();
     }
 
     void Update()
     {
+        //Toggle free camera movement
+        if (toggleToggleFollow)
+        {
+            if (Input.GetKeyDown("c"))
+            {
+                toggleFollow = !toggleFollow;
+                target = null;
+            }
+        }
+
         // Switch focus
         if (Input.GetMouseButtonDown(0))
         {
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
-
-            RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
-
-            if (hit.transform != null)
+            if (toggleFollow)
             {
-                UnityEngine.Debug.Log(hit.transform.gameObject.name);
+                Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
 
-                if (hit.transform.gameObject.tag == "monkey")
+                RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
+
+                if (hit.transform != null)
                 {
-                    target = hit.transform;
-
-                    zoom.scroll = 5f;
-                    zoom.targetOrtho -= zoom.scroll * zoom.zoomSpeed;
-                    zoom.targetOrtho = Mathf.Clamp(zoom.targetOrtho, 4f, zoom.maxOrtho);
-
-                    Camera.main.orthographicSize = Mathf.MoveTowards(Camera.main.orthographicSize, zoom.targetOrtho, zoom.smoothSpeed * Time.deltaTime);
+                    if (hit.transform.gameObject.tag == "monkey")
+                    {
+                        target = hit.transform;
+                        Focus();
+                    }
+                    else if (hit.transform.gameObject.tag == "tree")
+                    {
+                        target = hit.transform;
+                        Focus();
+                    }
+                }
+                else
+                {
+                    target = null;
                 }
             }
             else
@@ -63,31 +80,47 @@ public class CameraFollow : MonoBehaviour
             }
         }
 
-        //Free camera movement with edge-scrolling and standard movement keys
+        //Free camera movement with mouse
         if (target == null)
         {
-            Vector3 targetPos = transform.position;
+            if (toggleFollow)
+            {
+                Vector3 targetPos = Input.mousePosition;
 
-            if (Input.mousePosition.y >= Screen.height - panBorderThickness)
-            {
-                targetPos.y += panSpeed * Time.deltaTime;
-            }
-            else if (Input.mousePosition.y <= panBorderThickness)
-            {
-                targetPos.y -= panSpeed * Time.deltaTime;
-            }
-            else if (Input.mousePosition.x >= Screen.width - panBorderThickness)
-            {
-                targetPos.x += panSpeed * Time.deltaTime;
-            }
-            else if (Input.mousePosition.x <= panBorderThickness)
-            {
-                targetPos.x -= panSpeed * Time.deltaTime;
-            }
+                if ((targetPos.x - Screen.width / 2) * (targetPos.x - Screen.width / 2) + (targetPos.y - Screen.height / 2) * (targetPos.y - Screen.height / 2) >= panBorderRadius * panBorderRadius)
+                {
+                    targetPos = Camera.main.ScreenToWorldPoint(targetPos);
 
-            targetPos.x = Mathf.Clamp(targetPos.x, minPos.x, maxPos.x);
-            targetPos.y = Mathf.Clamp(targetPos.y, minPos.y, maxPos.y);
-            transform.position = Vector3.Lerp(transform.position, targetPos, panSmoothing);
+                    if (targetPos.y > transform.position.y)
+                    {
+                        targetPos.y += panSpeed * Time.deltaTime;
+                    }
+                    else if (targetPos.y < transform.position.y)
+                    {
+                        targetPos.y -= panSpeed * Time.deltaTime;
+                    }
+                    else if (targetPos.x > transform.position.x)
+                    {
+                        targetPos.x += panSpeed * Time.deltaTime;
+                    }
+                    else if (targetPos.x < transform.position.x)
+                    {
+                        targetPos.x -= panSpeed * Time.deltaTime;
+                    }
+
+                    targetPos.x = Mathf.Clamp(targetPos.x, minPos.x, maxPos.x);
+                    targetPos.y = Mathf.Clamp(targetPos.y, minPos.y, maxPos.y);
+
+                    if (game.paused)
+                    {
+                        transform.position = Vector3.Lerp(transform.position, targetPos, panSmoothing / 100);
+                    }
+                    else
+                    {
+                        transform.position = Vector3.Lerp(transform.position, targetPos, panSmoothing * Time.deltaTime);
+                    }
+                }
+            }
         }
         // Follow the specified target
         else
@@ -97,7 +130,15 @@ public class CameraFollow : MonoBehaviour
                 Vector3 targetPos = new Vector3(target.position.x, target.position.y, transform.position.z);
                 targetPos.x = Mathf.Clamp(targetPos.x, minPos.x, maxPos.x);
                 targetPos.y = Mathf.Clamp(targetPos.y, minPos.y, maxPos.y);
-                transform.position = Vector3.Lerp(transform.position, targetPos, followSmoothing);
+
+                if (game.paused)
+                {
+                    transform.position = Vector3.Lerp(transform.position, targetPos, followSmoothing / 100);
+                }
+                else
+                {
+                    transform.position = Vector3.Lerp(transform.position, targetPos, followSmoothing * Time.deltaTime);
+                }
             }
         }
 
@@ -111,5 +152,21 @@ public class CameraFollow : MonoBehaviour
         convert.y = (((Camera.main.orthographicSize - ORTHO_MIN) * (MAX_Y - MIN_Y)) / (ORTHO_MAX - ORTHO_MIN)) + MIN_Y;
         minPos = new Vector2(-convert.x, -convert.y);
         maxPos = new Vector2(convert.x, convert.y);
+    }
+
+    void Focus()
+    {
+        zoom.scroll = 5f;
+        zoom.targetOrtho -= zoom.scroll * zoom.zoomSpeed;
+        zoom.targetOrtho = Mathf.Clamp(zoom.targetOrtho, 4f, zoom.maxOrtho);
+
+        if (game.paused)
+        {
+            Camera.main.orthographicSize = Mathf.MoveTowards(Camera.main.orthographicSize, zoom.targetOrtho, zoom.smoothSpeed / 100);
+        }
+        else
+        {
+            Camera.main.orthographicSize = Mathf.MoveTowards(Camera.main.orthographicSize, zoom.targetOrtho, zoom.smoothSpeed * Time.deltaTime);
+        }
     }
 }

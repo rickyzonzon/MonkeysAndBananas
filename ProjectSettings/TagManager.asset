@@ -48,3 +48,6 @@ TagManager:
   - name: Monkeys
     uniqueID: 1202110345
     locked: 0
+  - name: UI/Filter
+    uniqueID: 3649793797
+    locked: 0

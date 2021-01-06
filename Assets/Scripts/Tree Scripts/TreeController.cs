@@ -6,6 +6,8 @@ public class TreeController : MonoBehaviour
 {
     public int numTree;
     public int height;
+    public int energy;
+    public bool natural = true;
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +32,11 @@ public class TreeController : MonoBehaviour
         else
         {
             height = 5;
+        }
+
+        if (natural)
+        {
+            energy = Random.Range(6, 27);
         }
     }
 }

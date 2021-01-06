@@ -8,7 +8,7 @@ using Pathfinding;
 
 public class MonkeyMovement : MonoBehaviour
 {
-    private float targettingSpeed;
+    private float targetingSpeed;
     private float wanderingSpeed;
     private Rigidbody2D myRigidbody;
     public Vector3 change;
@@ -31,7 +31,7 @@ public class MonkeyMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        targettingSpeed = this.GetComponent<MonkeyGenes>().targettingSpeed;
+        targetingSpeed = this.GetComponent<MonkeyGenes>().targetingSpeed;
         wanderingSpeed = this.GetComponent<MonkeyGenes>().wanderingSpeed;
         myRigidbody = this.GetComponent<Rigidbody2D>();
         animator = this.GetComponent<Animator>();
@@ -42,7 +42,7 @@ public class MonkeyMovement : MonoBehaviour
         track = this.GetComponent<AIDestinationSetter>();
         unclimbableTrees = new List<GameObject>();
 
-        boredTime = (((targettingSpeed - game.targettingSpeedBounds[0]) * (5f - 12f)) / (game.targettingSpeedBounds[1] - game.targettingSpeedBounds[0])) + 10f;
+        boredTime = (((targetingSpeed - game.targetingSpeedBounds[0]) * (5f - 12f)) / (game.targetingSpeedBounds[1] - game.targetingSpeedBounds[0])) + 10f;
         wanderAI = transform.GetChild(0);
     }
 
@@ -110,7 +110,7 @@ public class MonkeyMovement : MonoBehaviour
                 if (hit.gameObject.GetComponent<MonkeyGenes>().size > genes.size)
                 {
                     bumpDir = (transform.position - hit.transform.position).normalized;
-                    bumpMag = 4.5f * (hit.gameObject.GetComponent<MonkeyGenes>().size - genes.size);
+                    bumpMag = 5 * (hit.gameObject.GetComponent<MonkeyGenes>().size - genes.size);
                     bump = true;
                 }
             }
@@ -235,7 +235,7 @@ public class MonkeyMovement : MonoBehaviour
                 }
 
                 track.target = objects[index].transform;
-                aiPath.maxSpeed = targettingSpeed;
+                aiPath.maxSpeed = targetingSpeed;
                 state._state = "Targetting";
             }
             else
@@ -276,7 +276,7 @@ public class MonkeyMovement : MonoBehaviour
                 }
 
                 track.target = objects[index].transform;
-                aiPath.maxSpeed = targettingSpeed;
+                aiPath.maxSpeed = targetingSpeed;
                 state._state = "Targetting";
             }
             else
