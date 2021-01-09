@@ -8,6 +8,10 @@ TagManager:
   - tree
   - collidable
   - particles
+  - button
+  - toggle
+  - field
+  - slider
   layers:
   - Default
   - TransparentFX

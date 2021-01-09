@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class WanderingSpeedSlider : MonoBehaviour, ISliders
+public class WanderingSpeedSlider : MonoBehaviour, ISliders, IPointerDownHandler
 {
     private Slider slider;
     private InputField inputField;
@@ -30,5 +30,10 @@ public class WanderingSpeedSlider : MonoBehaviour, ISliders
     {
         inputField.text = slider.value.ToString();
         GameObject.Find("Wandering Stamina").GetComponent<WanderingStaminaSlider>().SliderUpdate();
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        GameObject.Find("Button Menu").GetComponent<UISFX>().PlaySlider();
     }
 }

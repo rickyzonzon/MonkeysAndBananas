@@ -43,6 +43,7 @@ public class MonkeyEnergy : MonoBehaviour
             if (energy > genes.breedingThreshold)
             {
                 state.breedable = true;
+                this.GetComponent<MonkeySFX>().PlayHehe();
             }
             else
             {
@@ -93,6 +94,7 @@ public class MonkeyEnergy : MonoBehaviour
 
     GameObject Breed(GameObject parent)
     {
+        this.GetComponent<MonkeySFX>().PlayHehe();
         MonkeyGenes parentGenes = parent.GetComponent<MonkeyGenes>();
 
         // add other monkey to mates

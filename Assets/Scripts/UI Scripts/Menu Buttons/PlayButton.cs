@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class PlayButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class PlayButton : MonoBehaviour, IPointerDownHandler
 {
     public Sprite btnUp;
     public Sprite btnDown;
@@ -39,9 +39,6 @@ public class PlayButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public void OnPointerDown(PointerEventData eventData)
     {
         transform.parent.GetComponent<Image>().sprite = btnDown;
-    }
-
-    public void OnPointerUp(PointerEventData eventData)
-    {
+        GameObject.Find("Button Menu").GetComponent<UISFX>().PlayButton();
     }
 }

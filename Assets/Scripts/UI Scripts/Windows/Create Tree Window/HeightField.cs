@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class HeightField : MonoBehaviour, IFields<float>
+public class HeightField : MonoBehaviour, IFields<float>, IPointerDownHandler
 {
     private Slider slider;
     private InputField inputField;
@@ -39,5 +39,10 @@ public class HeightField : MonoBehaviour, IFields<float>
     {
         slider.value = Mathf.Round(slider.value);
         slider.value = System.Convert.ToInt32(inputField.text);
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        GameObject.Find("Button Menu").GetComponent<UISFX>().PlayField();
     }
 }

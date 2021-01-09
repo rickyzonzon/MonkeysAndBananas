@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class MaxClimbSlider : MonoBehaviour, ISliders
+public class MaxClimbSlider : MonoBehaviour, ISliders, IPointerDownHandler
 {
     private Slider slider;
     private InputField inputField;
@@ -30,5 +30,10 @@ public class MaxClimbSlider : MonoBehaviour, ISliders
     {
         slider.value = Mathf.Round(slider.value);
         inputField.text = ((int)slider.value).ToString();
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        GameObject.Find("Button Menu").GetComponent<UISFX>().PlaySlider();
     }
 }

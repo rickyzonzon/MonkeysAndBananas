@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class TargetingStaminaSlider : MonoBehaviour, ISliders
+public class TargetingStaminaSlider : MonoBehaviour, ISliders, IPointerDownHandler
 {
     private Slider slider;
     private InputField inputField;
@@ -42,5 +42,10 @@ public class TargetingStaminaSlider : MonoBehaviour, ISliders
             inputField.text = ((int)slider.value).ToString();
         }
         catch (Exception e) { print(e); }
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        GameObject.Find("Button Menu").GetComponent<UISFX>().PlaySlider();
     }
 }

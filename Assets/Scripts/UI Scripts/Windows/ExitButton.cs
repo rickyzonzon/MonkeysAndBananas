@@ -39,6 +39,7 @@ public class ExitButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public void OnPointerDown(PointerEventData eventData)
     {
         this.GetComponent<Image>().sprite = btnDown;
+        GameObject.Find("Button Menu").GetComponent<UISFX>().PlayButton();
     }
 
     public void OnPointerUp(PointerEventData eventData)

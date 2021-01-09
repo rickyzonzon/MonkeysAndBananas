@@ -12,13 +12,13 @@ public class GameController : MonoBehaviour
     public int currentTrees = 0;
     public int totalTrees = 0;
     public float mutationProbability = 0.27f;
-    public float energyLossRate = 4f;
+    public float energyLossRate = 4;
     public int startingEnergy = 80;
     public int currentMonkeys = 0;
     public int totalMonkeys = 0;
     public int numMutations = 0;
     public int youngestGeneration = 0;
-    private float timeOfExistence = 0;
+    [HideInInspector] public float timeOfExistence = 0;
     public int yearsOfExistence = 0;
     public int monthsOfExistence = 0;
     public bool extinction = false;
@@ -66,7 +66,7 @@ public class GameController : MonoBehaviour
         LevelGeneration levelGen = this.GetComponent<LevelGeneration>();
         levelGen.Generate();
         AstarPath.active.Scan();
-        InvokeRepeating("SpawnTree", treeSpawnFreq, treeSpawnFreq);
+        InvokeRepeating("SpawnTrees", treeSpawnFreq, treeSpawnFreq);
     }
 
     void Update()
@@ -92,7 +92,7 @@ public class GameController : MonoBehaviour
         monthsOfExistence = (int)(((10 * timeOfExistence) % 365) / 30);
     }
 
-    public GameObject SpawnTree()
+    public GameObject SpawnTrees()
     {
         int randNum = UnityEngine.Random.Range(treeSpawnBounds[0], treeSpawnBounds[1]);
         for (int i = 0; i < randNum; i++)
@@ -157,6 +157,12 @@ public class GameController : MonoBehaviour
         return monkey;
     }
 
+    public GameObject SpawnObject(Vector3 pos, int objIndex)
+    {
+        GameObject obj = Instantiate(collidables[objIndex], pos, Quaternion.identity) as GameObject;
+        return obj;
+    }
+
     public bool SafeSpawn(Vector3 pos, String type)
     {
         Collider2D overlap = null;
@@ -164,7 +170,8 @@ public class GameController : MonoBehaviour
         if (type == "tree" || type == "monkey")
         {
             overlap = Physics2D.OverlapCircle(new Vector2(pos.x, pos.y), 0.5f);
-        } else
+        } 
+        else
         {
             overlap = Physics2D.OverlapCircle(new Vector2(pos.x, pos.y), 1f);
         }
@@ -172,7 +179,8 @@ public class GameController : MonoBehaviour
         if (overlap == null)
         {
             return true;
-        } else
+        } 
+        else
         {
             return false;
         }

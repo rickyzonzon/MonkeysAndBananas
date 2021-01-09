@@ -50,7 +50,9 @@ public class CreateTreeButton : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     {
         if (Input.GetKeyDown("escape"))
         {
+            Camera.main.transform.GetComponent<MonkeyInfoWindow>().toggleInfo = true;
             Camera.main.transform.GetComponent<TreeInfoWindow>().toggleInfo = true;
+            
             foreach (Transform child in GameObject.Find("Buttons").transform)
             {
                 child.gameObject.GetComponent<Image>().raycastTarget = true;
@@ -81,6 +83,7 @@ public class CreateTreeButton : MonoBehaviour, IPointerDownHandler, IPointerUpHa
                         child.gameObject.GetComponent<Image>().raycastTarget = true;
                     }
 
+                    Camera.main.transform.GetComponent<MonkeyInfoWindow>().toggleInfo = true;
                     Camera.main.transform.GetComponent<TreeInfoWindow>().toggleInfo = true;
                     placeTree = false;
                     Destroy(tempTree);
@@ -99,6 +102,7 @@ public class CreateTreeButton : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     public void OnPointerDown(PointerEventData eventData)
     {
         this.GetComponent<Image>().sprite = btnDown;
+        GameObject.Find("Button Menu").GetComponent<UISFX>().PlayButton();
     }
 
     public void OnPointerUp(PointerEventData eventData)

@@ -10,14 +10,10 @@ public class CloseGameButton : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     public Sprite btnUp;
     public Sprite btnDown;
 
-    void Start()
-    {
-        
-    }
-
     public void OnPointerDown(PointerEventData eventData)
     {
         transform.parent.GetComponent<Image>().sprite = btnDown;
+        GameObject.Find("Button Menu").GetComponent<UISFX>().PlayButton();
     }
 
     public void OnPointerUp(PointerEventData eventData)

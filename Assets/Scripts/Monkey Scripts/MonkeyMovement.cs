@@ -69,6 +69,7 @@ public class MonkeyMovement : MonoBehaviour
             {
                 boredTimer = 0f;
                 state.bored = true;
+                this.GetComponent<MonkeySFX>().PlayHehe();
                 Wandering();
             }
         }
@@ -234,6 +235,10 @@ public class MonkeyMovement : MonoBehaviour
                     }
                 }
 
+                if (game.timeOfExistence > 3)
+                {
+                    this.GetComponent<MonkeySFX>().PlayChirp();
+                }
                 track.target = objects[index].transform;
                 aiPath.maxSpeed = targetingSpeed;
                 state._state = "Targetting";
@@ -275,6 +280,10 @@ public class MonkeyMovement : MonoBehaviour
                     }
                 }
 
+                if (game.timeOfExistence > 3)
+                {
+                    this.GetComponent<MonkeySFX>().PlayChirp();
+                }
                 track.target = objects[index].transform;
                 aiPath.maxSpeed = targetingSpeed;
                 state._state = "Targetting";

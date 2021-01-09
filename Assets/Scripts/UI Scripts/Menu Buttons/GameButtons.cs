@@ -35,6 +35,7 @@ public class GameButtons : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public void OnPointerDown(PointerEventData eventData)
     {
         transform.parent.GetComponent<Image>().sprite = btnDown;
+        GameObject.Find("Button Menu").GetComponent<UISFX>().PlayButton();
     }
 
     public void OnPointerUp(PointerEventData eventData)

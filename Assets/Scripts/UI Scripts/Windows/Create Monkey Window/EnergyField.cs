@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class EnergyField : MonoBehaviour
+public class EnergyField : MonoBehaviour, IPointerDownHandler
 {
     private InputField inputField;
 
@@ -21,5 +21,10 @@ public class EnergyField : MonoBehaviour
         {
             inputField.text = "1";
         }
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        GameObject.Find("Button Menu").GetComponent<UISFX>().PlayField();
     }
 }
