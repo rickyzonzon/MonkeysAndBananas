@@ -6,11 +6,18 @@ using UnityEngine;
 
 public class LevelGeneration : MonoBehaviour
 {
-    public int numCollidables = 20;
-    public int numMonkeys = 15;
-    public int numTrees = 7;
+    public int numCollidables;
+    public int numMonkeys;
+    public int numTrees;
 
     private GameController game;
+
+    void Start()
+    {
+        numCollidables = GameObject.Find("Setup Info").GetComponent<SetupInfo>().startingObjects;
+        numMonkeys = GameObject.Find("Setup Info").GetComponent<SetupInfo>().startingMonkeys;
+        numTrees = GameObject.Find("Setup Info").GetComponent<SetupInfo>().startingTrees;
+    }
 
     public void Generate()
     {
@@ -75,7 +82,7 @@ public class LevelGeneration : MonoBehaviour
                 randPos.z = -5f;
                 safetyNet++;
             }
-            while (!game.SafeSpawn(randPos, "collidables"));
+            while (!game.SafeSpawn(randPos, "object"));
 
             game.objectPos.position = randPos;
             game.SpawnObject(game.objectPos.position, randObj);

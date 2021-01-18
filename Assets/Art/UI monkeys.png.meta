@@ -1,43 +1,43 @@
 fileFormatVersion: 2
-guid: 532869ded31203247b3d541e242a001a
+guid: 3ba8b11d3d17324448b79dd03852c110
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4461117007765901822
-    second: monkey_1 (white)_0
+      213: 3655152265126945134
+    second: UI monkeys_0
   - first:
-      213: -6160983202659850330
-    second: monkey_1 (white)_1
+      213: -1706230645876044985
+    second: UI monkeys_1
   - first:
-      213: -1724172588162534855
-    second: monkey_1 (white)_2
+      213: 3629071911952950399
+    second: UI monkeys_2
   - first:
-      213: -320845955087359212
-    second: monkey_1 (white)_3
+      213: 5838047863565445405
+    second: UI monkeys_3
   - first:
-      213: 4050922092963888211
-    second: monkey_1 (white)_4
+      213: -4459899114039488505
+    second: UI monkeys_4
   - first:
-      213: 4173013612128812935
-    second: monkey_1 (white)_5
+      213: 2886179384682728076
+    second: UI monkeys_5
   - first:
-      213: -8687186663444340289
-    second: monkey_1 (white)_6
+      213: -2872867040959448847
+    second: UI monkeys_6
   - first:
-      213: 3448598790900237993
-    second: monkey_1 (white)_7
+      213: 3120632454363684185
+    second: UI monkeys_7
   - first:
-      213: -5916050741609451447
-    second: monkey_1 (white)_8
+      213: -1546147073814450718
+    second: UI monkeys_8
   - first:
-      213: 8618501594942483631
-    second: monkey_1 (white)_9
+      213: 5136951967271859348
+    second: UI monkeys_9
   - first:
-      213: 7007943139576666447
-    second: monkey_1 (white)_10
+      213: 6612093106005220847
+    second: UI monkeys_10
   - first:
-      213: 224098559045634988
-    second: monkey_1 (white)_11
+      213: -8131263159843427441
+    second: UI monkeys_11
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -120,6 +120,18 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
     buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -135,13 +147,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: monkey_1 (white)_0
+      name: UI monkeys_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 160
-        width: 32
-        height: 32
+        x: 5
+        y: 165
+        width: 22
+        height: 21
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -149,20 +161,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ef11755584219ed30800000000000000
-      internalID: 4461117007765901822
+      spriteID: e612bda8e95b9b230800000000000000
+      internalID: 3655152265126945134
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: monkey_1 (white)_1
+      name: UI monkeys_1
       rect:
         serializedVersion: 2
-        x: 32
-        y: 160
-        width: 32
-        height: 32
+        x: 37
+        y: 165
+        width: 25
+        height: 22
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -170,20 +182,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6a7af426b6acf7aa0800000000000000
-      internalID: -6160983202659850330
+      spriteID: 74b4caf74404258e0800000000000000
+      internalID: -1706230645876044985
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: monkey_1 (white)_2
+      name: UI monkeys_2
       rect:
         serializedVersion: 2
-        x: 0
-        y: 128
-        width: 32
-        height: 32
+        x: 5
+        y: 133
+        width: 25
+        height: 22
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -191,20 +203,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9323b178a228218e0800000000000000
-      internalID: -1724172588162534855
+      spriteID: f74ad402dad0d5230800000000000000
+      internalID: 3629071911952950399
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: monkey_1 (white)_3
+      name: UI monkeys_3
       rect:
         serializedVersion: 2
-        x: 32
-        y: 128
-        width: 32
-        height: 32
+        x: 37
+        y: 133
+        width: 25
+        height: 21
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -212,20 +224,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 413a563cd402c8bf0800000000000000
-      internalID: -320845955087359212
+      spriteID: d19eb81c999e40150800000000000000
+      internalID: 5838047863565445405
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: monkey_1 (white)_4
+      name: UI monkeys_4
       rect:
         serializedVersion: 2
-        x: 0
-        y: 96
-        width: 32
-        height: 32
+        x: 5
+        y: 101
+        width: 24
+        height: 21
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -233,20 +245,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 35cf4eb4e24c73830800000000000000
-      internalID: 4050922092963888211
+      spriteID: 700d895a2614b12c0800000000000000
+      internalID: -4459899114039488505
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: monkey_1 (white)_5
+      name: UI monkeys_5
       rect:
         serializedVersion: 2
-        x: 32
-        y: 96
-        width: 32
-        height: 32
+        x: 37
+        y: 101
+        width: 23
+        height: 21
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -254,20 +266,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 78fbec945c589e930800000000000000
-      internalID: 4173013612128812935
+      spriteID: c8ac116dbd4cd0820800000000000000
+      internalID: 2886179384682728076
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: monkey_1 (white)_6
+      name: UI monkeys_6
       rect:
         serializedVersion: 2
-        x: 0
-        y: 64
-        width: 32
-        height: 32
+        x: 5
+        y: 69
+        width: 22
+        height: 21
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -275,20 +287,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fb1a3eb91c9e07780800000000000000
-      internalID: -8687186663444340289
+      spriteID: 1f83fa8b5a68128d0800000000000000
+      internalID: -2872867040959448847
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: monkey_1 (white)_7
+      name: UI monkeys_7
       rect:
         serializedVersion: 2
-        x: 32
-        y: 64
-        width: 32
-        height: 32
+        x: 34
+        y: 69
+        width: 25
+        height: 22
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -296,20 +308,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9a643703452ebdf20800000000000000
-      internalID: 3448598790900237993
+      spriteID: 95d17e4fea6be4b20800000000000000
+      internalID: 3120632454363684185
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: monkey_1 (white)_8
+      name: UI monkeys_8
       rect:
         serializedVersion: 2
-        x: 0
-        y: 32
-        width: 32
-        height: 32
+        x: 2
+        y: 37
+        width: 25
+        height: 22
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -317,20 +329,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 940be21f137f5eda0800000000000000
-      internalID: -5916050741609451447
+      spriteID: 2eda7ce9d6bfa8ae0800000000000000
+      internalID: -1546147073814450718
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: monkey_1 (white)_9
+      name: UI monkeys_9
       rect:
         serializedVersion: 2
-        x: 32
-        y: 32
-        width: 32
-        height: 32
+        x: 34
+        y: 37
+        width: 25
+        height: 21
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -338,20 +350,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fac2faea9811b9770800000000000000
-      internalID: 8618501594942483631
+      spriteID: 494bb75f89e1a4740800000000000000
+      internalID: 5136951967271859348
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: monkey_1 (white)_10
+      name: UI monkeys_10
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 32
-        height: 32
+        x: 3
+        y: 5
+        width: 24
+        height: 21
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -359,20 +371,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f495a90e727314160800000000000000
-      internalID: 7007943139576666447
+      spriteID: fed1045c5afd2cb50800000000000000
+      internalID: 6612093106005220847
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: monkey_1 (white)_11
+      name: UI monkeys_11
       rect:
         serializedVersion: 2
-        x: 32
-        y: 0
-        width: 32
-        height: 32
+        x: 36
+        y: 5
+        width: 23
+        height: 21
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -380,8 +392,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cab879eb3782c1300800000000000000
-      internalID: 224098559045634988
+      spriteID: f8bef46cc33f72f80800000000000000
+      internalID: -8131263159843427441
       vertices: []
       indices: 
       edges: []

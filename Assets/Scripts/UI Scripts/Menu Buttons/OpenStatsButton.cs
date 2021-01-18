@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 public class OpenStatsButton : MonoBehaviour, IPointerDownHandler
 {
     [HideInInspector] public Vector3 oldPos;
+    private Vector3 targetPos;
     private Transform window;
     public bool open;
 
@@ -20,8 +21,10 @@ public class OpenStatsButton : MonoBehaviour, IPointerDownHandler
     {
         if (open)
         {
-            window.position = Vector3.MoveTowards(window.position, new Vector3(oldPos.x + 418, oldPos.y, oldPos.z), 500 * Time.deltaTime);
-            if (window.position == new Vector3(oldPos.x + 418, oldPos.y, oldPos.z))
+            targetPos = new Vector3(oldPos.x + 422, oldPos.y, oldPos.z);
+
+            window.position = Vector3.MoveTowards(window.position, targetPos, 500 * Time.deltaTime);
+            if (window.position == targetPos)
             {
                 open = false;
                 window.Find("Close Flap").GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);

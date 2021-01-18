@@ -86,7 +86,7 @@ public class CreateCollidableButton : MonoBehaviour, IPointerDownHandler, IPoint
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             tempObj.transform.position = new Vector3(mousePos.x, mousePos.y, -8f);
 
-            if (game.SafeSpawn(tempObj.transform.position, "collidable"))
+            if (game.SafeSpawn(tempObj.transform.position, "object"))
             {
                 tempObj.GetComponent<SpriteRenderer>().color = new Color(0f, 1f, 0f, 0.85f);
                 if (Input.GetMouseButtonDown(0))

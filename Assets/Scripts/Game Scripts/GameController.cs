@@ -65,7 +65,17 @@ public class GameController : MonoBehaviour
     {
         LevelGeneration levelGen = this.GetComponent<LevelGeneration>();
         levelGen.Generate();
+        
         AstarPath.active.Scan();
+
+        treeSpawnFreq = GameObject.Find("Setup Info").GetComponent<SetupInfo>().treeSpawnFreq;
+        treeSpawnBounds[0] = GameObject.Find("Setup Info").GetComponent<SetupInfo>().treeSpawnBounds[0];
+        treeSpawnBounds[1] = GameObject.Find("Setup Info").GetComponent<SetupInfo>().treeSpawnBounds[1];
+        maxTrees = GameObject.Find("Setup Info").GetComponent<SetupInfo>().maxTrees;
+        mutationProbability = GameObject.Find("Setup Info").GetComponent<SetupInfo>().mutationProbability;
+        energyLossRate = GameObject.Find("Setup Info").GetComponent<SetupInfo>().energyLossRate;
+        startingEnergy = GameObject.Find("Setup Info").GetComponent<SetupInfo>().startingEnergy;
+
         InvokeRepeating("SpawnTrees", treeSpawnFreq, treeSpawnFreq);
     }
 
@@ -163,31 +173,45 @@ public class GameController : MonoBehaviour
         return obj;
     }
 
+    public bool SwitchColliders()
+    {
+        bool enabled = false;
+
+        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("collidable"))
+        {
+            obj.GetComponent<CapsuleCollider2D>().enabled = !obj.GetComponent<CapsuleCollider2D>().enabled;
+            enabled = obj.GetComponent<CapsuleCollider2D>().enabled;
+        }
+
+        print(enabled);
+
+        return enabled;
+    }
+
     public bool SafeSpawn(Vector3 pos, String type)
     {
+        SwitchColliders();
+
         Collider2D overlap = null;
 
         if (type == "tree" || type == "monkey")
         {
             overlap = Physics2D.OverlapCircle(new Vector2(pos.x, pos.y), 0.5f);
         } 
-        else
+        else if (type == "object")
         {
             overlap = Physics2D.OverlapCircle(new Vector2(pos.x, pos.y), 1f);
         }
 
         if (overlap == null)
         {
+            SwitchColliders();
             return true;
         } 
         else
         {
+            SwitchColliders();
             return false;
         }
-    }
-
-    public void CloseGame()
-    {
-        Application.Quit();
     }
 }

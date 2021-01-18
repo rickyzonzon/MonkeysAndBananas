@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class UISFX : MonoBehaviour
 {
+    public AudioClip hover;
     public AudioClip button;
     public AudioClip toggle;
     public AudioClip slider;
@@ -13,6 +14,12 @@ public class UISFX : MonoBehaviour
     void Start()
     {
         sfx = this.GetComponent<AudioSource>();
+    }
+
+    public void PlayHover()
+    {
+        sfx.clip = hover;
+        sfx.Play();
     }
 
     public void PlayButton()
