@@ -4,9 +4,9 @@
 #### https://gamejolt.com/games/Monkeysandbananas/577522
  Simple simulation of Darwinism and evolution in monkeys with C#. Created in Unity, developed all art assets with Piskel. Genetic evolution algorithm using uniform crossover and random resetting mutation.
  
- Monkey Basics
+ ### Monkey Basics
   Monkeys need energy in order to survive, but each monkey's energy depletes over time. To keep their energy from depleting to zero, monkeys have to eat bananas. Monkeys have several genes that contribute to a monkey's ability to find and eat bananas. Once a monkey's energy has reached a certian point, they are able to breed with another monkey. When two monkeys breed, another monkey spawns that has some of the genetic makeup of its two parents. The genes are inherited using uniform crossover and random resetting mutation; meaning, each parent has a 50 percent chance of passing on each gene to the child. There is a 27 percent chance that a monkey will undergo a mutation, where a random gene is picked and is reset to a random value. A mutated monkey will also not inherit color, but will be assigned a new random color.
-  - Genes:
+  #### - Genes:
    - Color
    - Name: First name is random, last name is inherited from one of the parents.
    - Intelligence: determines the banana detection radius of a monkey
@@ -19,13 +19,13 @@
    - Breeding Threshold: determines the minimum amount of energy necessary to breed
    - Energy Passover: determines how much energy is passed on to each child
 
-Main Menu & UI
-  - Main Menu
+### Main Menu & UI
+  #### - Main Menu
    - Start: opens the game setup menu
     - Game Setup: the player is able to tweak several details about the simulation (it is recommended that the player leave them on the default settings for the first few plays)
    - About: opens a menu containing information about development
    - Quit: closes the game
-  - In-Game UI
+  #### - In-Game UI
    - Stats Menu:
     - The button on the left side of the screen will open a tab that shows different information about the game (similar information that is in the game setup menu)
    - Button Menu (from right to left):
@@ -36,7 +36,7 @@ Main Menu & UI
     - Create Monkey: spawn a new monkey with customizable genes
     - Create Tree: spawn a new tree/banana with customizable height and energy
     - Create Object: spawn an object
-   - Controls:
+  #### - Controls:
     - The camera moves with the mouse and zooms with the scrollwheel. Press C to stop camera movement and zoom.
     - Left-Click:
      - [On monkey] Bring up info about the monkey and its genes, as well as the current state of the monkey (baby, bored, breedable, mutated)
